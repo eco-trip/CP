@@ -1,0 +1,42 @@
+{
+	"common": {
+		"error": "Errore",
+		"success": "Successo",
+		"back": "Indietro",
+		"save": "Salva",
+		"sand": "Invia",
+		"no_results": "Nessun risultato trovato",
+		"yes": "Si",
+		"no": "No",
+		"exit": "Esci",
+		"confirm": "Conferma",
+		"cancel": "Annulla",
+		"stop": "Stop",
+		"other": "Altro",
+		"saved": "Salvato",
+		"saving": "Salvando",
+		"details": "Dettagli"
+	},
+	"login": {
+		"btn": "Accedi",
+		"title": "Accedi a Ecotrip",
+		"forgot password": "Hai dimenticato la password?",
+		"continue": "Continua",
+		"lastname": "Cognome",
+		"login": "Accedi",
+		"register": "Registrati",
+		"logout": "Esci",
+		"privacy_check": "Ho letto ed accetto la %s",
+		"privacy": "Privacy Policy",
+		"welcome": "benvenuto",
+		"confirm": "conferma",
+		"changePasswordSuccess": "Password cambiata con successo",
+		"forgotPasswordTitle": "Cambia la tua password",
+		"sureToChangePassword": "Sei sicuro di voler cambiare password?",
+		"changePasswordEmailSent": "È stata mandata un'email al tuo account per cambiare la password.",
+		"passwordNotMatch": "Le password non corrispondono",
+		"expiredLink": "Questo link non è più valido",
+		"administration": "Amministrazione",
+		"forgotPassword": "Password dimenticata?"
+	}
+}

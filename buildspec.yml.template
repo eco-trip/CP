@@ -1,0 +1,24 @@
+version: 0.2
+phases:
+  pre_build:
+    commands:
+      - echo List directory files...
+      - ls
+      - echo Installing NPM dependencies
+      - npm ci
+  build:
+    commands:
+      - echo List active directory...
+      - ls
+      - echo Build started on `date`
+      - npx lessc src/styles/app.less --js --source-map src/styles/app.css
+      # - echo REACT_APP_ENDPOINT=https://__ApiUrl__ >> .env.production
+      - echo REACT_APP_ENDPOINT=https://api.progotan.com >> .env.production
+      - npm run build
+  post_build:
+    commands:
+      - ls
+artifacts:
+  files:
+    - '**/*'
+  base-directory: 'build'

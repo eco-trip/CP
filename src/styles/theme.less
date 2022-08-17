@@ -1,0 +1,62 @@
+/*CUSTOM*/
+@import (css)
+	url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+
+@gray-color: #b2bec3;
+@light-grey-color: #dfe6e9;
+@gray-border: #dfe6e9;
+@gutter: 20px;
+
+@background-gray: #fafbfc;
+
+/*ANT OVERRIDE*/
+@primary-color: #00b894;
+@success-color: #00b894;
+@error-color: #d63031;
+@warning-color: #fdcb6e;
+@info-color: #0984e3;
+@border-color-base: @gray-border;
+@black: #2d3436;
+@font-family: 'Lato', sans-serif;
+@label-color: @gray-color;
+@table-header-color: @gray-color;
+
+/*SCROLLBAR*/
+::-webkit-scrollbar {
+	width: 8px;
+}
+
+::-webkit-scrollbar-track {
+	box-shadow: inset 0 0 8px @background-gray;
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: @primary-color;
+}
+
+/*FIX INPUT AUTOCOMPLETE*/
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+	transition: color 9999s ease-out, background-color 9999s ease-out;
+	transition-delay: 9999s;
+}
+
+.ant-input-affix-wrapper.ant-input-affix-wrapper-readonly > input.ant-input:focus {
+	box-shadow: 0 0 0 50px @border-color-base inset !important;
+	-webkit-box-shadow: 0 0 0 50px @border-color-base inset !important;
+}
+
+.ant-input-affix-wrapper-readonly {
+	background: @border-color-base;
+
+	input:-webkit-autofill,
+	input:-webkit-autofill:hover,
+	input:-webkit-autofill:focus,
+	input:-webkit-autofill:active {
+		background-color: transparent !important;
+		box-shadow: 0 0 0 50px @border-color-base inset;
+		-webkit-box-shadow: 0 0 0 50px @border-color-base inset;
+	}
+}

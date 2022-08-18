@@ -1,0 +1,37 @@
+name: PullRequest
+
+on:
+  pull_request:
+    branches:
+      - release
+      - staging
+      - dev
+
+jobs:
+  pullrequest:
+    permissions:
+      checks: write
+      pull-requests: write
+      contents: write
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+          ref: ${{ github.event.pull_request.head.ref }}
+
+      - name: Setup keys
+        env:
+          FontAwesomeKey: ${{ secrets.FONT_AWESOME_KEY }}
+        run: sed "s/__FontAwesomeKey__/${FontAwesomeKey}/g" .npmrc.template >.npmrc
+
+      - name: npm pull request
+        uses: eco-trip/npm-pull-request-action@v1.0
+        with:
+          token: ${{ secrets.MEBBOT }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          checkout: false
+          test: false

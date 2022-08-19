@@ -74,12 +74,11 @@ $RECYCLE.BIN/
 # End of https://www.toptal.com/developers/gitignore/api/macos,windows,linux
 
 # CUSTOM
-/node_modules
+node_modules
 
 # Templated files with secrets
 .npmrc
 buildspec.yml
-.env.tmp
 deploy/.aws-sam
 deploy/urls.json
 

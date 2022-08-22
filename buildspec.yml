@@ -5,19 +5,20 @@ phases:
       - echo List directory files...
       - ls
       - echo Installing NPM dependencies
-      - npm ci
+      - npm install
   build:
     commands:
       - echo List active directory...
       - ls
       - echo Build started on `date`
       - npx lessc src/styles/app.less --js --source-map src/styles/app.css
-      # - echo REACT_APP_ENDPOINT=https://__ApiUrl__ >> .env.production
-      - echo REACT_APP_ENDPOINT=https://api.progotan.com >> .env.production
+      - echo REACT_APP_ENDPOINT=https://${ApiUrl} >> .env.production
       - npm run build
   post_build:
     commands:
       - ls
+      - aws s3 cp --recursive --acl public-read --cache-control="max-age=0, no-cache, no-store, must-revalidate" ./build s3://${DeployBucket}/
+      - aws cloudfront create-invalidation --distribution-id ${DistributionId} --paths "/*"
 artifacts:
   files:
     - '**/*'

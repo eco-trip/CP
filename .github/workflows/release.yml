@@ -13,7 +13,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0
           token: ${{ secrets.MEBBOT }}
 
       - name: Setup keys
@@ -26,3 +25,13 @@ jobs:
         with:
           token: ${{ secrets.MEBBOT }}
           checkout: false
+
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy
+        uses: eco-trip/ci-deploy-action@v1.0
+        with:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          token: ${{ secrets.MEBBOT }}

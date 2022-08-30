@@ -97,6 +97,17 @@
 	.ant-form-item {
 		margin: 0;
 	}
+
+	.ant-input[disabled]:focus,
+	.ant-input[disabled]:hover,
+	.ant-input[disabled] {
+		color: @gray-color !important;
+	}
+}
+
+.small-cell-text {
+	color: @gray-color;
+	font-size: 0.8rem;
 }
 
 .button-cell {
@@ -161,7 +172,7 @@
 			padding-top: 100%;
 		}
 
-		>* {
+		> * {
 			color: gray;
 			position: absolute;
 			top: 50%;

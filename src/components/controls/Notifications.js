@@ -6,9 +6,8 @@ const { notification: Notification } = require('antd');
 
 export const loadingNotification = () => {
 	Notification.open({
-		message: i18n.t('common.saving'),
-		description: i18n.t('common.savingInProgress'),
-		icon: <FontAwesomeIcon icon={faSpinnerThird} style={{ color: '#108ee9' }} spin />,
+		message: i18n.t('common.savingInProgress'),
+		icon: <FontAwesomeIcon icon={faSpinnerThird} style={{ color: '#00b894' }} spin />,
 		key: 'loading',
 		duration: 0
 	});
@@ -16,8 +15,7 @@ export const loadingNotification = () => {
 
 export const savedNotification = () => {
 	Notification.success({
-		message: i18n.t('common.success'),
-		description: i18n.t('common.saved')
+		message: i18n.t('common.saved')
 	});
 };
 

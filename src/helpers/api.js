@@ -20,14 +20,17 @@ const errorComposer = error => () => {
 	}
 };
 
+/*
 let refreshTokenPromise;
 const getRefreshedToken = () => Api.get('/auth/rt');
+*/
 
 Api.interceptors.response.use(
 	response => response,
 	error => {
 		error.globalHandler = errorComposer(error);
 
+		/*
 		const prevRequest = error?.config;
 		const statusCode = error?.response?.status;
 		const customErrorCode = error?.response?.data?.error;
@@ -50,6 +53,7 @@ Api.interceptors.response.use(
 				.then(window.location.replace(window.location.origin))
 				.catch(window.location.replace(window.location.origin));
 		}
+		*/
 		return Promise.reject(error);
 	}
 );

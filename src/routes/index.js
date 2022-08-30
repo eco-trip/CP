@@ -1,7 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { Layout } from 'antd';
 import { Route, Routes, BrowserRouter } from 'react-router-dom';
-import Cookie from 'js-cookie';
 import Sticky from 'react-stickynode';
 
 import ErrorPage from '../components/extra/ErrorPage';
@@ -13,6 +12,7 @@ import ChangePassword from '../components/user/ChangePassword';
 import AppContext from '../helpers/AppContext';
 
 import Dashboard from './Dashboard';
+import Hotels from './Hotels';
 
 const { Content, Sider } = Layout;
 
@@ -22,7 +22,7 @@ const Index = () => {
 
 	return (
 		<BrowserRouter>
-			{Cookie.get('logged') && Object.keys(logged).length ? (
+			{logged ? (
 				<Layout className="main-layout">
 					<Header />
 					<Sider
@@ -40,6 +40,7 @@ const Index = () => {
 					<Content>
 						<Routes>
 							<Route exact path="/" element={<Dashboard />} />
+							<Route exact path="/hotels" element={<Hotels />} />
 							<Route path="*" element={<ErrorPage status="404" />} />
 						</Routes>
 					</Content>

@@ -9,12 +9,12 @@ fi
 # LOAD PARAMETERS
 source parameters
 
-if [ $env = "dev" ]; then
+if [ $Env = "dev" ]; then
 	echo "Nothinbg to do for \"dev\" environment..."
 	exit 2
 fi
 
-if [ "$env" = "production" ]; then
+if [ "$Env" = "production" ]; then
 	read -p "Are you sure? " -n 1 -r
 	echo
 	echo
@@ -24,8 +24,8 @@ if [ "$env" = "production" ]; then
 fi
 
 # GET URL FROM S3 AND SET VARIABLES
-aws s3 cp ${urls} ./urls.json
-Url=$(cat urls.json | jq ".${target}.${env}" | tr -d '"')
+aws s3 cp ${Urls} ./urls.json
+Url=$(cat urls.json | jq ".${Target}.${Env}" | tr -d '"')
 
 # REMOVE S3 BUCKETS
 aws s3 rm s3://${Url} --recursive 2>/dev/null || echo "S3 bucket not found, probably already deleted"
@@ -33,4 +33,8 @@ aws s3 rm s3://${URI}-source/ --recursive 2>/dev/null || echo "S3 bucket not fou
 aws s3 rb s3://${URI}-source/ --force 2>/dev/null || echo "S3 bucket not found, probably already deleted"
 
 # SAM DELETE
-sam delete --stack-name ${URI} --no-prompts --region ${AWS_DEFAULT_REGION} --profile ${AWS_PROFILE}
+sam delete \
+	--stack-name ${URI} \
+	--no-prompts \
+	--region ${AWS_DEFAULT_REGION} \
+	--profile ${AWS_PROFILE}

@@ -7,15 +7,17 @@ import i18n from './i18n';
 const Api = axios.create({ baseURL: process.env.REACT_APP_ENDPOINT, withCredentials: true });
 
 const errorComposer = error => () => {
-	if (error.response) {
+	console.log(error);
+
+	if (error.response?.data) {
 		Modal.error({
-			title: `${i18n.t('common.error')} [${error.response?.data?.error}]`,
-			content: i18n.t(`core:errors.${error.response?.data?.error}`)
+			title: `[${error.response.data.error}] ${i18n.t('common.error')}`,
+			content: i18n.t(`core:errors.${error.response.data.error}`)
 		});
 	} else {
 		Modal.error({
 			title: i18n.t('common.error'),
-			content: error.toString()
+			content: error.message ? error.message : error.toString()
 		});
 	}
 };

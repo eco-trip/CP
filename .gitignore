@@ -75,6 +75,7 @@ $RECYCLE.BIN/
 
 # CUSTOM
 node_modules
+.env.local
 
 # Templated files with secrets
 .npmrc

@@ -23,14 +23,7 @@
 		"btn": "Sign In",
 		"title": "Sign in Ecotrip",
 		"login": "Sign In",
-		"logout": "Logout",
-		"forgotPassword": "Forgot Password",
-		"forgotPasswordTitle": "Change your password",
-		"changePasswordSuccess": "Password changed successfully",
-		"sureToChangePassword": "Are you sure you want to change password?",
-		"changePasswordEmailSent": "An email has been sent to your account to change password.",
-		"passwordNotMatch": "Passwords do not match",
-		"expiredLink": "This link is not valid anymore"
+		"logout": "Logout"
 	},
 	"menu": {
 		"dashboard": "Dashboard",

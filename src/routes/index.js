@@ -3,13 +3,13 @@ import { Layout } from 'antd';
 import { Route, Routes, BrowserRouter } from 'react-router-dom';
 import Sticky from 'react-stickynode';
 
+import FullpageLoading from '../components/extra/FullpageLoading';
 import ErrorPage from '../components/extra/ErrorPage';
 import Header from '../components/layout/Header';
 import Menu from '../components/layout/Menu';
 import Login from '../components/user/Login';
-import ChangePassword from '../components/user/ChangePassword';
 
-import AppContext from '../helpers/AppContext';
+import AppContext, { AuthStatus } from '../helpers/AppContext';
 
 import Dashboard from './Dashboard';
 import Hotels from './Hotels';
@@ -17,12 +17,14 @@ import Hotels from './Hotels';
 const { Content, Sider } = Layout;
 
 const Index = () => {
-	const { logged } = useContext(AppContext);
+	const { authStatus } = useContext(AppContext);
 	const [collapsed, setCollapsed] = useState(false);
+
+	if (authStatus === AuthStatus.Loading) return <FullpageLoading />;
 
 	return (
 		<BrowserRouter>
-			{logged ? (
+			{authStatus === AuthStatus.SignedIn ? (
 				<Layout className="main-layout">
 					<Header />
 					<Sider
@@ -49,7 +51,6 @@ const Index = () => {
 				<Layout className="fullpage-layout">
 					<Content>
 						<Routes>
-							<Route exact path="/changePassword/:id/:token" element={<ChangePassword />} />
 							<Route path="*" element={<Login />} />
 						</Routes>
 					</Content>

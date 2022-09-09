@@ -7,7 +7,7 @@ import i18n from './i18n';
 const Api = axios.create({ baseURL: process.env.REACT_APP_ENDPOINT, withCredentials: true });
 
 const errorComposer = error => () => {
-	console.log(error);
+	console.error(error);
 
 	if (error.response?.data) {
 		Modal.error({

@@ -9,7 +9,10 @@ const UserInfo = ({ user, mobile = false, link = true, left = false }) =>
 			<Space>
 				{!mobile && (
 					<div className="logged-info">
-						<p>{user.fullname}</p>
+						<p>
+							{user.name} {user.family_name}
+						</p>
+						<p className="logged-info-sub">{user['custom:role']}</p>
 					</div>
 				)}
 				<Avatar.Group>

@@ -1,5 +1,5 @@
 /* eslint-disable no-nested-ternary */
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Layout, Button, Row, Col, Space, Tooltip } from 'antd';
@@ -18,20 +18,14 @@ const { Header } = Layout;
 
 const HeaderComponent = props => {
 	const { t } = useTranslation();
-	const { logged, handleLogout, isMobile } = useContext(AppContext);
+	const { logged, signOut, isMobile } = useContext(AppContext);
 	const [showMobileDrawer, setShowMobileDrawer] = useState(false);
-
-	useEffect(() => {
-		// history.listen(() => {
-		// 	setShowMobileDrawer(false);
-		// });
-	}, []);
 
 	const buttons = () => (
 		<Space>
 			<UserInfo user={logged} />
 			<Tooltip title={t('login.logout')} placement="bottom">
-				<Button type="primary" shape="circle" icon={<FontAwesomeIcon icon={faPowerOff} />} onClick={handleLogout} />
+				<Button type="primary" shape="circle" icon={<FontAwesomeIcon icon={faPowerOff} />} onClick={signOut} />
 			</Tooltip>
 			<LanguageSelector />
 		</Space>

@@ -11,7 +11,7 @@ import Menu from './Menu';
 
 const MobileDrawer = props => {
 	const { show, close } = props;
-	const { logged, handleLogout } = useContext(AppContext);
+	const { logged, signOut } = useContext(AppContext);
 
 	return (
 		<Drawer
@@ -36,12 +36,7 @@ const MobileDrawer = props => {
 							<LanguageSelector />
 						</Col>
 						<Col flex="auto" className="align-right">
-							<Button
-								type="primary"
-								shape="circle"
-								icon={<FontAwesomeIcon icon={faPowerOff} />}
-								onClick={handleLogout}
-							/>
+							<Button type="primary" shape="circle" icon={<FontAwesomeIcon icon={faPowerOff} />} onClick={signOut} />
 						</Col>
 					</Row>
 				</div>

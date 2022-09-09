@@ -15,12 +15,10 @@ const UserPic = props => {
 
 	useEffect(() => {
 		if (user) {
-			if (user.id === undefined) user.id = user._id;
-
-			if (logged && logged.id === user.id) {
+			if (logged && logged.sub === user.sub) {
 				setInfo(logged);
 			} else if (!user.picUrl && loadPic) {
-				Api.get('/users/' + user.id + '/pic')
+				Api.get('/users/' + user.sub + '/pic')
 					.then(res => {
 						setInfo({ ...user, picUrl: res.data });
 					})
@@ -32,12 +30,12 @@ const UserPic = props => {
 	}, [user]);
 
 	const el = info ? (
-		<Tooltip title={info.fullname} placement="top">
+		<Tooltip title={`${info.name} ${info.family_name}`} placement="top">
 			<Avatar
 				{...spreadProps}
 				size={size}
 				src={info.picUrl ? info.picUrl : <FontAwesomeIcon icon={faUser} />}
-				alt={info.fullname}
+				alt={`${info.name} ${info.family_name}`}
 			/>
 		</Tooltip>
 	) : (
@@ -46,7 +44,7 @@ const UserPic = props => {
 
 	if (link && info) {
 		return (
-			<Link className="userPic" to={'/profile/' + info.id}>
+			<Link className="userPic" to={'/profile/' + info.sub}>
 				{el}
 			</Link>
 		);

@@ -23,14 +23,7 @@
 		"btn": "Accedi",
 		"title": "Accedi a Ecotrip",
 		"login": "Accedi",
-		"logout": "Esci",
-		"forgotPassword": "Password dimenticata?",
-		"forgotPasswordTitle": "Cambia la tua password",
-		"changePasswordSuccess": "Password cambiata con successo",
-		"sureToChangePassword": "Sei sicuro di voler cambiare password?",
-		"changePasswordEmailSent": "È stata mandata un'email al tuo account per cambiare la password.",
-		"passwordNotMatch": "Le password non corrispondono",
-		"expiredLink": "Questo link non è più valido"
+		"logout": "Esci"
 	},
 	"menu": {
 		"dashboard": "Dashboard",

@@ -1,54 +1,45 @@
-import React, { useContext, useState, useRef, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Form, Input, Button, Card, Col, Row, Modal, Popover } from 'antd';
+import { Form, Input, Button, Card, Col, Row, Modal } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faLock } from '@fortawesome/pro-solid-svg-icons';
 
-import ForgotPasswordPopover from './ForgotPasswordPopover';
 import AppContext from '../../helpers/AppContext';
 
 const Login = () => {
 	const { t } = useTranslation();
-	const { setLogged } = useContext(AppContext);
-
+	const { signIn } = useContext(AppContext);
+	const [form] = Form.useForm();
 	const passwordRef = useRef();
 
-	const [pwdError, setPwdError] = useState(false);
-	const [reset, setReset] = useState(false);
-	const [emailValue, setEmailValue] = useState('');
-
-	const [form] = Form.useForm();
-
-	useEffect(() => {
-		if (reset) {
-			setReset(false);
-			form.resetFields();
-		}
-	}, [reset]);
+	const [error, setError] = useState(false);
 
 	const handleLogin = ({ email = '', password = '' }) => {
-		if (email === 'admin@meblabs.com' && password === 'testtest') setLogged({ id: 'admin', fullname: 'admin' });
-		else setPwdError(t('core:errors.301'));
-
-		/*
-		Api.post(`/auth/login`, { email, password })
-			.then(res => {
-				setLogged(res.data);
-				i18n.changeLanguage(res.data.lang);
-			})
-			.catch(err => {
-				const errorCode = err.response && err.response.data ? err.response.data.error : null;
-				if (errorCode === 301) return setPwdError(t('core:errors.' + errorCode));
-
-				return err.globalHandler && err.globalHandler();
+		signIn(email, password)
+			.then(() => {})
+			.catch(e => {
+				switch (e.code) {
+					case 'UserNotFoundException':
+						setError({ target: 'email', text: t('core:errors.300') });
+						break;
+					case 'NotAuthorizedException':
+						setError({ target: 'password', text: t('core:errors.301') });
+						break;
+					case 'UserNotConfirmedException':
+						setError({ target: 'email', text: t('core:errors.302') });
+						break;
+					default:
+						Modal.error({
+							title: `[1] ${t('common.error')}`,
+							content: t('core:errors.1')
+						});
+				}
 			});
-			*/
 	};
 
 	const validateMessages = { required: t('core:errors.201') };
 
-	return navigator.cookieEnabled ? (
+	return (
 		<div className="center-content">
 			<div className="login-box">
 				<Card title={t('login.title')}>
@@ -62,30 +53,23 @@ const Login = () => {
 					>
 						<Form.Item
 							name="email"
+							validateStatus={error?.target === 'email' ? 'error' : undefined}
+							help={error?.target === 'email' ? error.text : undefined}
+							onChange={() => setError(false)}
 							rules={[
 								{
 									required: true
-								},
-								{
-									type: 'email',
-									message: t('core:errors.210')
 								}
 							]}
 						>
-							<Input
-								autoFocus
-								prefix={<FontAwesomeIcon icon={faUser} />}
-								placeholder={t('core:fields.email')}
-								value={emailValue}
-								onChange={value => setEmailValue(value)}
-							/>
+							<Input autoFocus prefix={<FontAwesomeIcon icon={faUser} />} placeholder={t('core:fields.email')} />
 						</Form.Item>
 
 						<Form.Item
 							name="password"
-							validateStatus={pwdError ? 'error' : undefined}
-							help={pwdError || undefined}
-							onChange={() => setPwdError(false)}
+							validateStatus={error?.target === 'password' ? 'error' : undefined}
+							help={error?.target === 'password' ? error.text : undefined}
+							onChange={() => setError(false)}
 							rules={[
 								{
 									required: true
@@ -99,12 +83,6 @@ const Login = () => {
 							/>
 						</Form.Item>
 
-						<Form.Item className="align-center">
-							<Popover content={<ForgotPasswordPopover email={emailValue} />} trigger="click" placement="top">
-								<Link to="/#">{t('login.forgotPassword')}</Link>
-							</Popover>
-						</Form.Item>
-
 						<Row wrap={false}>
 							<Col flex="auto" className="align-right">
 								<Button form="loginForm" type="primary" htmlType="submit">
@@ -116,11 +94,6 @@ const Login = () => {
 				</Card>
 			</div>
 		</div>
-	) : (
-		Modal.error({
-			title: t('cookie.title'),
-			content: t('cookie.message')
-		})
 	);
 };
 

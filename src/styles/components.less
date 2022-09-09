@@ -1,0 +1,23 @@
+/* User Info */
+.user-tpl {
+	.logged-info {
+		text-align: right;
+		p {
+			font-size: 12px;
+			line-height: 1.1;
+			margin: 0;
+		}
+		p.logged-info-sub {
+			color: @gray-color;
+		}
+	}
+
+	&.left {
+		.ant-space {
+			flex-direction: row-reverse;
+		}
+		.logged-info {
+			text-align: left;
+		}
+	}
+}

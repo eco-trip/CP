@@ -71,3 +71,16 @@ export const getAttributes = async () =>
 	}).catch(err => {
 		throw err;
 	});
+
+export const refreshToken = async token =>
+	new Promise((resolve, reject) => {
+		logged.refreshSession(token, (err, session) => {
+			if (err) {
+				reject(err);
+			} else {
+				resolve(session);
+			}
+		});
+	}).catch(err => {
+		throw err;
+	});

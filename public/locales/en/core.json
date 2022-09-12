@@ -11,8 +11,6 @@
 		"301": "Wrong password",
 		"302": "Inactive account",
 		"304": "The email already exists",
-		"306": "Refresh token does not exist",
-		"307": "Expired refresh token",
 		"400": "Bad request",
 		"401": "Unauthorized",
 		"402": "Not allowed by CORS",

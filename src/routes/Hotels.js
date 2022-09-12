@@ -13,7 +13,7 @@ import {
 	notification
 } from '../components/controls/Notifications';
 
-import Api from '../helpers/api';
+import Api from '../helpers/Api';
 
 const Dashboard = () => {
 	const { t } = useTranslation();

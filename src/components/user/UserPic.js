@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/pro-solid-svg-icons';
 
 import AppContext from '../../helpers/AppContext';
-import Api from '../../helpers/api';
+import Api from '../../helpers/Api';
 
 const UserPic = props => {
 	const { user, size, link, loadPic, ...spreadProps } = props;

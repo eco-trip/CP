@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import { useEffect, useContext, useState } from 'react';
+import { useEffect, useContext } from 'react';
 import { Modal } from 'antd';
 import axios from 'axios';
 
@@ -24,9 +24,10 @@ const errorComposer = error => () => {
 	}
 };
 
+let refreshTokenPromise = false;
+
 export const ApiInterceptor = ({ children }) => {
 	const { sessionInfo, refreshToken, signOut } = useContext(AppContext);
-	const [refreshTokenRequest, setRefreshTokenRequest] = useState(false);
 
 	useEffect(() => {
 		const reqInterceptor = config => {
@@ -43,23 +44,30 @@ export const ApiInterceptor = ({ children }) => {
 		};
 
 		const resInterceptor = response => response;
-		const resErrInterceptor = async error => {
+		const resErrInterceptor = error => {
 			error.globalHandler = errorComposer(error);
 
 			const prevRequest = error?.config;
 			const statusCode = error?.response?.status;
 
-			if (statusCode === 401 && sessionInfo?.refreshToken && !refreshTokenRequest && !prevRequest?.resent) {
+			if (statusCode === 401 && sessionInfo?.refreshToken && !prevRequest?.__isRetryRequest) {
 				try {
-					prevRequest.resent = true;
-					setRefreshTokenRequest(true);
-					await refreshToken(sessionInfo.refreshToken);
-					// eslint-disable-next-line no-promise-executor-return
-					await new Promise(resolve => setTimeout(resolve, 1));
-					setRefreshTokenRequest(false);
-					return Api(prevRequest);
+					prevRequest.__isRetryRequest = true;
+
+					if (!refreshTokenPromise) {
+						refreshTokenPromise = refreshToken(sessionInfo.refreshToken);
+						refreshTokenPromise.then(res => {
+							refreshTokenPromise = null;
+							return res;
+						});
+					}
+
+					return refreshTokenPromise.then(() =>
+						// necessary to allow time for the state to update to include a new token in requests
+						// eslint-disable-next-line no-promise-executor-return
+						new Promise(resolve => setTimeout(resolve, 1)).then(() => Api(prevRequest))
+					);
 				} catch (err) {
-					setRefreshTokenRequest(false);
 					signOut();
 				}
 			}

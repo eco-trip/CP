@@ -4,6 +4,7 @@ import { createRoot } from 'react-dom/client';
 import Routes from './routes';
 
 import { AppProvider } from './helpers/AppContext';
+import { ApiInterceptor } from './helpers/Api';
 import FullpageLoading from './components/extra/FullpageLoading';
 
 import './helpers/i18n';
@@ -14,7 +15,9 @@ const root = createRoot(container);
 root.render(
 	<Suspense fallback={<FullpageLoading />}>
 		<AppProvider>
-			<Routes />
+			<ApiInterceptor>
+				<Routes />
+			</ApiInterceptor>
 		</AppProvider>
 	</Suspense>
 );

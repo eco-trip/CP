@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-catch */
 /* eslint-disable react/jsx-no-constructed-context-values */
 import React, { useState, useLayoutEffect, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -22,7 +23,7 @@ export const AppProvider = props => {
 
 	const [authStatus, setAuthStatus] = useState(AuthStatus.Loading);
 	const [sessionInfo, setSessionInfo] = useState({});
-	const [logged, setLogged] = useState([]);
+	const [logged, setLogged] = useState({});
 
 	const menuItems = [
 		{
@@ -37,9 +38,37 @@ export const AppProvider = props => {
 		}
 	];
 
+	const getSessionInfo = async () => {
+		try {
+			const session = await cognito.getSession();
+			setSessionInfo({
+				accessToken: session.accessToken.jwtToken,
+				refreshToken: session.refreshToken
+			});
+
+			const attr = await cognito.getAttributes();
+			const parsed = attr.reduce((obj, item) => {
+				// eslint-disable-next-line no-param-reassign
+				obj[item.getName()] = item.getValue();
+				return obj;
+			}, {});
+			setLogged(parsed);
+			setAuthStatus(AuthStatus.SignedIn);
+		} catch (err) {
+			setAuthStatus(AuthStatus.SignedOut);
+			setSessionInfo({});
+			setLogged({});
+		}
+	};
+
+	useEffect(() => {
+		getSessionInfo();
+	}, []);
+
 	const signIn = async (username, password) => {
 		try {
 			await cognito.signIn(username, password);
+			await getSessionInfo();
 			setAuthStatus(AuthStatus.SignedIn);
 		} catch (err) {
 			setAuthStatus(AuthStatus.SignedOut);
@@ -50,31 +79,21 @@ export const AppProvider = props => {
 	const signOut = () => {
 		cognito.signOut();
 		setAuthStatus(AuthStatus.SignedOut);
+		setSessionInfo({});
+		setLogged({});
 	};
 
-	useEffect(() => {
-		const getSessionInfo = async () => {
-			try {
-				const session = await cognito.getSession();
-				setSessionInfo({
-					accessToken: session.accessToken.jwtToken,
-					refreshToken: session.refreshToken.token
-				});
-
-				const attr = await cognito.getAttributes();
-				const parsed = attr.reduce((obj, item) => {
-					// eslint-disable-next-line no-param-reassign
-					obj[item.getName()] = item.getValue();
-					return obj;
-				}, {});
-				setLogged(parsed);
-				setAuthStatus(AuthStatus.SignedIn);
-			} catch (err) {
-				setAuthStatus(AuthStatus.SignedOut);
-			}
-		};
-		getSessionInfo();
-	}, [authStatus]);
+	const refreshToken = async token => {
+		try {
+			const session = await cognito.refreshToken(token);
+			setSessionInfo({
+				accessToken: session.accessToken.jwtToken,
+				refreshToken: session.refreshToken
+			});
+		} catch (err) {
+			throw err;
+		}
+	};
 
 	useLayoutEffect(() => {
 		const updateSize = () => {
@@ -96,6 +115,7 @@ export const AppProvider = props => {
 				logged,
 				signIn,
 				signOut,
+				refreshToken,
 				menuItems,
 				setSelectedMenuItem,
 				selectedMenuItem

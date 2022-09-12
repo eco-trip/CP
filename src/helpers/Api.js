@@ -5,7 +5,6 @@ import axios from 'axios';
 
 import i18n from './i18n';
 import AppContext from './AppContext';
-// import * as cognito from './cognito';
 
 const Api = axios.create({ baseURL: process.env.REACT_APP_ENDPOINT, withCredentials: true });
 
@@ -26,61 +25,59 @@ const errorComposer = error => () => {
 };
 
 export const ApiInterceptor = ({ children }) => {
-	const { sessionInfo } = useContext(AppContext);
-	// const [refreshTokenRequest, setRefreshTokenRequest] = useState(false);
+	const { sessionInfo, refreshToken, signOut } = useContext(AppContext);
+	const [refreshTokenRequest, setRefreshTokenRequest] = useState(false);
 
 	useEffect(() => {
-		Api.interceptors.request.use(
-			config => {
-				if (sessionInfo?.accessToken) {
-					config.headers = {
-						authorization: `Bearer ${sessionInfo.accessToken}`
-					};
-				}
-
-				return config;
-			},
-			error => {
-				Promise.reject(error);
+		const reqInterceptor = config => {
+			if (sessionInfo?.accessToken) {
+				config.headers = {
+					authorization: `Bearer ${sessionInfo.accessToken}`
+				};
 			}
-		);
 
-		Api.interceptors.response.use(
-			response => response,
-			async error => {
-				error.globalHandler = errorComposer(error);
+			return config;
+		};
+		const reqErrInterceptor = error => {
+			Promise.reject(error);
+		};
 
-				/*
-				const prevRequest = error?.config;
-				const statusCode = error?.response?.status;
+		const resInterceptor = response => response;
+		const resErrInterceptor = async error => {
+			error.globalHandler = errorComposer(error);
 
-				if (statusCode === 401 && !prevRequest?.sent) {
-					prevRequest.sent = true;
+			const prevRequest = error?.config;
+			const statusCode = error?.response?.status;
 
-					if (sessionInfo?.refreshToken && !refreshTokenRequest) {
-						try {
-							setRefreshTokenRequest(true);
-							const session = await cognito.refreshToken(sessionInfo.refreshToken);
-							setRefreshTokenRequest(false);
-							console.log('refresh token');
-							console.log(session);
-						} catch (err) {
-							setRefreshTokenRequest(false);
-							console.log('error refresh token');
-							throw err;
-						}
-					}
-					// return Api(prevRequest);
+			if (statusCode === 401 && sessionInfo?.refreshToken && !refreshTokenRequest && !prevRequest?.resent) {
+				try {
+					prevRequest.resent = true;
+					setRefreshTokenRequest(true);
+					await refreshToken(sessionInfo.refreshToken);
+					// eslint-disable-next-line no-promise-executor-return
+					await new Promise(resolve => setTimeout(resolve, 1));
+					setRefreshTokenRequest(false);
+					return Api(prevRequest);
+				} catch (err) {
+					setRefreshTokenRequest(false);
+					signOut();
 				}
-
-				if (statusCode === 401) {
-					// logout
-				}
-				*/
-
-				return Promise.reject(error);
 			}
-		);
+
+			if (statusCode === 401) {
+				signOut();
+			}
+
+			return Promise.reject(error);
+		};
+
+		const requestInterceptor = Api.interceptors.request.use(reqInterceptor, reqErrInterceptor);
+		const responseInterceptor = Api.interceptors.response.use(resInterceptor, resErrInterceptor);
+
+		return () => {
+			Api.interceptors.request.eject(requestInterceptor);
+			Api.interceptors.response.eject(responseInterceptor);
+		};
 	}, [sessionInfo]);
 
 	return children;

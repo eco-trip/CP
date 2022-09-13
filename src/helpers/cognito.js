@@ -1,8 +1,9 @@
-import { AuthenticationDetails, CognitoUser, CognitoUserPool } from 'amazon-cognito-identity-js';
+import { AuthenticationDetails, CookieStorage, CognitoUser, CognitoUserPool } from 'amazon-cognito-identity-js';
 
 const poolData = {
 	UserPoolId: process.env.REACT_APP_AWS_COGNITO_USER_POOL_ID,
-	ClientId: process.env.REACT_APP_AWS_COGNITO_CLIENT_ID
+	ClientId: process.env.REACT_APP_AWS_COGNITO_CLIENT_ID,
+	Storage: new CookieStorage({ domain: process.env.REACT_APP_COOKIE_DOMAIN })
 };
 
 const userPool = new CognitoUserPool(poolData);
@@ -14,7 +15,8 @@ export const getCurrentUser = () => logged;
 const getCognitoUser = email =>
 	new CognitoUser({
 		Username: email,
-		Pool: userPool
+		Pool: userPool,
+		Storage: new CookieStorage({ domain: process.env.REACT_APP_COOKIE_DOMAIN })
 	});
 
 export const getSession = async () => {

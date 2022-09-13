@@ -13,7 +13,7 @@ phases:
       - echo Build started on `date`
       - npx lessc src/styles/app.less --js --source-map src/styles/app.css
       - echo REACT_APP_ENDPOINT=https://${ApiUrl} >> .env.production
-      - echo REACT_APP_COOKIE_DOMAIN=${Url} >> .env.production
+      - echo REACT_APP_COOKIE_DOMAIN=${CookieDomain} >> .env.production
       - echo REACT_APP_AWS_COGNITO_URL=${CognitoDomainUrl} >> .env.production
       - echo REACT_APP_AWS_COGNITO_USER_POOL_ID=${CognitoUserPoolID} >> .env.production
       - echo REACT_APP_AWS_COGNITO_CLIENT_ID=${CognitoAppClientID} >> .env.production

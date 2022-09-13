@@ -53,12 +53,13 @@ CognitoUserPoolID=$(aws cognito-idp describe-user-pool-domain --domain ${AuthUrl
 CognitoAppClientID=$(aws cognito-idp list-user-pool-clients --user-pool-id ${CognitoUserPoolID} | jq -r '.UserPoolClients[].ClientId')
 
 # BUILT REACT WITH CODEBUILD
+CookieDomain=${Url#*.}
 DistributionId=$(aws cloudformation describe-stacks --stack-name $URI --query "Stacks[0].Outputs[?OutputKey=='CloudFrontDistributionID'].OutputValue" --output text)
 aws codebuild start-build \
 	--project-name "${URI}-builder" \
 	--environment-variables-override \
 	name=ApiUrl,value=${ApiUrl},type=PLAINTEXT \
-	name=Url,value=${Url},type=PLAINTEXT \
+	name=CookieDomain,value=${CookieDomain},type=PLAINTEXT \
 	name=CognitoDomainUrl,value=${CognitoDomainUrl},type=PLAINTEXT \
 	name=CognitoUserPoolID,value=${CognitoUserPoolID},type=PLAINTEXT \
 	name=CognitoAppClientID,value=${CognitoAppClientID},type=PLAINTEXT \

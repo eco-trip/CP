@@ -20,6 +20,7 @@ HostedZoneId=$(echo ${Secrets} | jq .SecretString | jq -rc . | jq -rc '.HostedZo
 aws s3 cp ${Urls} ./urls.json
 Url=$(cat urls.json | jq ".${Target}.${Env}" | tr -d '"')
 ApiUrl=$(cat urls.json | jq ".administration.${Env}" | tr -d '"')
+AuthUrl=$(cat urls.json | jq ".auth.${Env}" | tr -d '"')
 
 # UPLOAD SOURCE TO S3
 aws s3 mb s3://${URI}-source/
@@ -29,7 +30,9 @@ aws s3 sync ${RootFolder} s3://${URI}-source/ \
 	--exclude "build/*" \
 	--exclude "deploy/*" \
 	--exclude ".github/*" \
-	--exclude ".git"
+	--exclude ".git" \
+	--exclude ".env.local" \
+	--exclude ".env.development"
 
 # SAM BUILD AND DEPLOY
 Parameters="ParameterKey=URI,ParameterValue=${URI} ParameterKey=AcmArn,ParameterValue=${AcmArn} ParameterKey=Url,ParameterValue=${Url} ParameterKey=HostedZoneId,ParameterValue=${HostedZoneId}"
@@ -44,8 +47,19 @@ sam deploy \
 	--capabilities CAPABILITY_NAMED_IAM CAPABILITY_AUTO_EXPAND \
 	--tags project=${Project} env=${Env} creator=${GitUsername}
 
+# GET COGNITO RESOURCES
+CognitoDomainUrl=$(aws cognito-idp describe-user-pool-domain --domain ${AuthUrl} | jq -r '.DomainDescription.Domain')
+CognitoUserPoolID=$(aws cognito-idp describe-user-pool-domain --domain ${AuthUrl} | jq -r '.DomainDescription.UserPoolId')
+CognitoAppClientID=$(aws cognito-idp list-user-pool-clients --user-pool-id ${CognitoUserPoolID} | jq -r '.UserPoolClients[].ClientId')
+
 # BUILT REACT WITH CODEBUILD
 DistributionId=$(aws cloudformation describe-stacks --stack-name $URI --query "Stacks[0].Outputs[?OutputKey=='CloudFrontDistributionID'].OutputValue" --output text)
 aws codebuild start-build \
 	--project-name "${URI}-builder" \
-	--environment-variables-override name=ApiUrl,value=${ApiUrl},type=PLAINTEXT name=DistributionId,value=${DistributionId},type=PLAINTEXT name=DeployBucket,value=${Url},type=PLAINTEXT
+	--environment-variables-override \
+	name=ApiUrl,value=${ApiUrl},type=PLAINTEXT \
+	name=CognitoDomainUrl,value=${CognitoDomainUrl},type=PLAINTEXT \
+	name=CognitoUserPoolID,value=${CognitoUserPoolID},type=PLAINTEXT \
+	name=CognitoAppClientID,value=${CognitoAppClientID},type=PLAINTEXT \
+	name=DistributionId,value=${DistributionId},type=PLAINTEXT \
+	name=DeployBucket,value=${Url},type=PLAINTEXT

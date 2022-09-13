@@ -58,6 +58,7 @@ aws codebuild start-build \
 	--project-name "${URI}-builder" \
 	--environment-variables-override \
 	name=ApiUrl,value=${ApiUrl},type=PLAINTEXT \
+	name=Url,value=${Url},type=PLAINTEXT \
 	name=CognitoDomainUrl,value=${CognitoDomainUrl},type=PLAINTEXT \
 	name=CognitoUserPoolID,value=${CognitoUserPoolID},type=PLAINTEXT \
 	name=CognitoAppClientID,value=${CognitoAppClientID},type=PLAINTEXT \

@@ -30,19 +30,6 @@ export const ApiInterceptor = ({ children }) => {
 	const { sessionInfo, refreshToken, signOut } = useContext(AppContext);
 
 	useEffect(() => {
-		const reqInterceptor = config => {
-			if (sessionInfo?.accessToken) {
-				config.headers = {
-					authorization: `Bearer ${sessionInfo.accessToken}`
-				};
-			}
-
-			return config;
-		};
-		const reqErrInterceptor = error => {
-			Promise.reject(error);
-		};
-
 		const resInterceptor = response => response;
 		const resErrInterceptor = error => {
 			error.globalHandler = errorComposer(error);
@@ -79,13 +66,9 @@ export const ApiInterceptor = ({ children }) => {
 			return Promise.reject(error);
 		};
 
-		const requestInterceptor = Api.interceptors.request.use(reqInterceptor, reqErrInterceptor);
 		const responseInterceptor = Api.interceptors.response.use(resInterceptor, resErrInterceptor);
 
-		return () => {
-			Api.interceptors.request.eject(requestInterceptor);
-			Api.interceptors.response.eject(responseInterceptor);
-		};
+		return () => Api.interceptors.response.eject(responseInterceptor);
 	}, [sessionInfo]);
 
 	return children;

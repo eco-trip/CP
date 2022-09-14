@@ -132,6 +132,8 @@ Resources:
       ConcurrentBuildLimit: 1
   CodeBuildWebLogs:
     Type: 'AWS::Logs::LogGroup'
+    DeletionPolicy: Delete
+    UpdateReplacePolicy: Retain
     Properties:
       LogGroupName: !Sub '${URI}-builder-logs'
       RetentionInDays: 14

@@ -36,5 +36,4 @@ aws s3 rb s3://${URI}-source/ --force 2>/dev/null || echo "S3 bucket not found, 
 sam delete \
 	--stack-name ${URI} \
 	--no-prompts \
-	--region ${AWS_DEFAULT_REGION} \
-	--profile ${AWS_PROFILE}
+	--region ${AWS_DEFAULT_REGION}

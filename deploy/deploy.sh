@@ -48,7 +48,6 @@ sam deploy \
 	--tags project=${Project} env=${Env} creator=${GitUsername}
 
 # GET COGNITO RESOURCES
-CognitoDomainUrl=$(aws cognito-idp describe-user-pool-domain --domain ${AuthUrl} | jq -r '.DomainDescription.Domain')
 CognitoUserPoolID=$(aws cognito-idp describe-user-pool-domain --domain ${AuthUrl} | jq -r '.DomainDescription.UserPoolId')
 CognitoAppClientID=$(aws cognito-idp list-user-pool-clients --user-pool-id ${CognitoUserPoolID} | jq -r '.UserPoolClients[].ClientId')
 
@@ -60,7 +59,6 @@ aws codebuild start-build \
 	--environment-variables-override \
 	name=ApiUrl,value=${ApiUrl},type=PLAINTEXT \
 	name=CookieDomain,value=${CookieDomain},type=PLAINTEXT \
-	name=CognitoDomainUrl,value=${CognitoDomainUrl},type=PLAINTEXT \
 	name=CognitoUserPoolID,value=${CognitoUserPoolID},type=PLAINTEXT \
 	name=CognitoAppClientID,value=${CognitoAppClientID},type=PLAINTEXT \
 	name=DistributionId,value=${DistributionId},type=PLAINTEXT \

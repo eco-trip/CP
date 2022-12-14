@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Input } from 'antd';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 
 import ContentPanel from '../components/layout/ContentPanel';
 import Table from '../components/layout/Table';
@@ -17,6 +18,7 @@ import Api from '../helpers/Api';
 
 const Dashboard = () => {
 	const { t } = useTranslation();
+	const navigate = useNavigate();
 
 	const [data, setData] = useState([]);
 	const [editingId, setEditingId] = useState(null);
@@ -24,7 +26,7 @@ const Dashboard = () => {
 	const [form] = Form.useForm();
 
 	const get = () =>
-		Api.get('/hotel')
+		Api.get('/hotels')
 			.then(res => setData(res.data))
 			.catch(err => err.globalHandler && err.globalHandler());
 
@@ -86,9 +88,9 @@ const Dashboard = () => {
 
 			let upsert;
 			if (editingId === 0) {
-				upsert = () => Api.post(`/hotel`, { ...row });
+				upsert = () => Api.post(`/hotels`, { ...row });
 			} else {
-				upsert = () => Api.patch(`/hotel/${editingId}`, { ...row });
+				upsert = () => Api.patch(`/hotels/${editingId}`, { ...row });
 			}
 
 			return upsert()
@@ -107,7 +109,7 @@ const Dashboard = () => {
 
 	const confirmDelete = ({ id }) => {
 		loadingNotification();
-		Api.delete(`/hotel/${id}`)
+		Api.delete(`/hotels/${id}`)
 			.then(() => notification.close('loading'))
 			.then(() => savedNotification())
 			.then(() => get())
@@ -175,7 +177,7 @@ const Dashboard = () => {
 					onCancel={cancel}
 					onEscape={cancel}
 					onDelete={confirmDelete}
-					onEdit={record => edit(record)}
+					onEdit={record => navigate(`/hotels/${record.id}`)}
 					onSave={save}
 					onEnter={save}
 					// searchBar

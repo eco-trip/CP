@@ -13,6 +13,7 @@ import AppContext, { AuthStatus } from '../helpers/AppContext';
 
 import Dashboard from './Dashboard';
 import Hotels from './Hotels';
+import Hotel from './Hotel';
 
 const { Content, Sider } = Layout;
 
@@ -43,6 +44,7 @@ const Index = () => {
 						<Routes>
 							<Route exact path="/" element={<Dashboard />} />
 							<Route exact path="/hotels" element={<Hotels />} />
+							<Route exact path="/hotels/:id" element={<Hotel />} />
 							<Route path="*" element={<ErrorPage status="404" />} />
 						</Routes>
 					</Content>

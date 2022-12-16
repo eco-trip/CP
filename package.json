@@ -1,6 +1,5 @@
 {
 	"name": "cp",
-	"version": "0.0.1",
 	"author": "Matteo Brocca, Alan Mancini, Alberto Marfoglia",
 	"description": "Ecotrip Control Panel",
 	"private": true,

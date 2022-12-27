@@ -3,7 +3,7 @@
 import React, { useState, useLayoutEffect, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGaugeLow, faHotel } from '@fortawesome/pro-solid-svg-icons';
+import { faHotel } from '@fortawesome/pro-solid-svg-icons';
 import { Link } from 'react-router-dom';
 
 import * as cognito from './cognito';
@@ -26,11 +26,6 @@ export const AppProvider = props => {
 	const [logged, setLogged] = useState({});
 
 	const menuItems = [
-		{
-			label: <Link to="/">{t('menu.dashboard')}</Link>,
-			key: 'dashboard',
-			icon: <FontAwesomeIcon icon={faGaugeLow} />
-		},
 		{
 			label: <Link to="/hotels">{t('menu.hotels')}</Link>,
 			key: 'hotels',

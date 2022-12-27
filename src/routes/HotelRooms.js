@@ -5,7 +5,6 @@ import { Form, Input } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
-import ContentPanel from '../components/layout/ContentPanel';
 import Table from '../components/layout/Table';
 import {
 	loadingNotification,
@@ -16,7 +15,7 @@ import {
 
 import Api from '../helpers/Api';
 
-const Hotels = () => {
+const Hotels = ({ hotel }) => {
 	const { t } = useTranslation();
 	const navigate = useNavigate();
 
@@ -27,7 +26,7 @@ const Hotels = () => {
 	const [form] = Form.useForm();
 
 	const get = () =>
-		Api.get('/hotels')
+		Api.get(`/hotels/${hotel.id}/rooms`, data)
 			.then(res => {
 				setLoading(false);
 				setData(res.data);
@@ -37,7 +36,7 @@ const Hotels = () => {
 	useEffect(() => {
 		setLoading(true);
 		get();
-	}, []);
+	}, [hotel]);
 
 	/*
 	useEffect(() => {
@@ -56,7 +55,8 @@ const Hotels = () => {
 
 	const edit = record => {
 		form.setFieldsValue({
-			name: record.name || '',
+			floor: record.floor || '',
+			number: record.number || '',
 			id: record.id
 		});
 
@@ -67,13 +67,15 @@ const Hotels = () => {
 		if (editingId !== null) return;
 
 		form.setFieldsValue({
-			name: '',
+			floor: '',
+			number: '',
 			id: 0
 		});
 
 		setData([
 			{
-				name: '',
+				floor: '',
+				number: '',
 				id: 0
 			},
 			...data
@@ -93,9 +95,9 @@ const Hotels = () => {
 
 			let upsert;
 			if (editingId === 0) {
-				upsert = () => Api.post(`/hotels`, { ...row });
+				upsert = () => Api.put(`/hotels/${hotel.id}/rooms`, { ...row });
 			} else {
-				upsert = () => Api.patch(`/hotels/${editingId}`, { ...row });
+				upsert = () => Api.patch(`/rooms/${editingId}`, { ...row });
 			}
 
 			return upsert()
@@ -114,7 +116,7 @@ const Hotels = () => {
 
 	const confirmDelete = ({ id }) => {
 		loadingNotification();
-		Api.delete(`/hotels/${id}`)
+		Api.delete(`/rooms/${id}`)
 			.then(() => notification.close('loading'))
 			.then(() => savedNotification())
 			.then(() => get())
@@ -143,13 +145,34 @@ const Hotels = () => {
 				)
 		},
 		{
-			title: t('hotels.name'),
-			dataIndex: 'name',
-			key: 'name',
+			title: t('rooms.floor'),
+			dataIndex: 'floor',
+			key: 'floor',
 			render: (value, record) =>
 				isEditing(record) ? (
 					<Form.Item
-						name="name"
+						name="floor"
+						rules={[
+							{
+								required: true,
+								message: t('core:errors.201')
+							}
+						]}
+					>
+						<Input placeholder={t('hotels.namePlaceholder')} autoFocus />
+					</Form.Item>
+				) : (
+					value
+				)
+		},
+		{
+			title: t('rooms.number'),
+			dataIndex: 'number',
+			key: 'number',
+			render: (value, record) =>
+				isEditing(record) ? (
+					<Form.Item
+						name="number"
 						rules={[
 							{
 								required: true,
@@ -166,34 +189,32 @@ const Hotels = () => {
 	];
 
 	return (
-		<ContentPanel title={t('menu.hotels')}>
-			<Form form={form} component={false}>
-				<Table
-					className="hotel-table"
-					rowKey="id"
-					loading={loading}
-					columns={columns}
-					dataSource={data}
-					addButton
-					onAdd={add}
-					deleteSaveButtonOnRow
-					editCancelButtonOnRow
-					isRecordEditing={isEditing}
-					onCancel={cancel}
-					onEscape={cancel}
-					onDelete={confirmDelete}
-					onEdit={record => navigate(`/hotels/${record.id}`)}
-					onSave={save}
-					onEnter={save}
-					// searchBar
-					// onChangeSearchBar={e => setSearch(e.target.value)}
-					isTableEditing={editingId !== null}
-					onRow={record => ({
-						onDoubleClick: () => !editingId !== null && record.id && edit(record)
-					})}
-				/>
-			</Form>
-		</ContentPanel>
+		<Form form={form} component={false}>
+			<Table
+				className="hotel-table"
+				rowKey="id"
+				loading={loading}
+				columns={columns}
+				dataSource={data}
+				addButton
+				onAdd={add}
+				deleteSaveButtonOnRow
+				editCancelButtonOnRow
+				isRecordEditing={isEditing}
+				onCancel={cancel}
+				onEscape={cancel}
+				onDelete={confirmDelete}
+				onEdit={record => edit(record)}
+				onSave={save}
+				onEnter={save}
+				// searchBar
+				// onChangeSearchBar={e => setSearch(e.target.value)}
+				isTableEditing={editingId !== null}
+				onRow={record => ({
+					onDoubleClick: () => !editingId !== null && record.id && edit(record)
+				})}
+			/>
+		</Form>
 	);
 };
 

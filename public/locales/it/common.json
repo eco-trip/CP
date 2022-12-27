@@ -30,11 +30,12 @@
 		"hotels": "Hotels"
 	},
 	"hotels": {
-		"id": "ID",
 		"name": "Nome",
 		"namePlaceholder": "Inserisci il nome..."
 	},
 	"hotel": {
+		"details": "Dettagli",
+		"rooms": "Stanze",
 		"info": "Informazioni",
 		"name": "Nome",
 		"description": "Descrizione",
@@ -43,5 +44,9 @@
 		"city": "Città",
 		"address": "Indirizzo",
 		"zipcode": "Cap"
+	},
+	"rooms": {
+		"floor": "piano",
+		"number": "numero"
 	}
 }

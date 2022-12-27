@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React, { useContext, useState } from 'react';
 import { Layout } from 'antd';
 import { Route, Routes, BrowserRouter } from 'react-router-dom';
@@ -11,7 +12,6 @@ import Login from '../components/user/Login';
 
 import AppContext, { AuthStatus } from '../helpers/AppContext';
 
-import Dashboard from './Dashboard';
 import Hotels from './Hotels';
 import Hotel from './Hotel';
 
@@ -25,7 +25,9 @@ const Index = () => {
 
 	return (
 		<BrowserRouter>
-			{authStatus === AuthStatus.SignedIn ? (
+			{authStatus === AuthStatus.Loading ? (
+				<FullpageLoading />
+			) : authStatus === AuthStatus.SignedIn ? (
 				<Layout className="main-layout">
 					<Header />
 					<Sider
@@ -42,7 +44,7 @@ const Index = () => {
 					</Sider>
 					<Content>
 						<Routes>
-							<Route exact path="/" element={<Dashboard />} />
+							<Route exact path="/" element={<Hotels />} />
 							<Route exact path="/hotels" element={<Hotels />} />
 							<Route exact path="/hotels/:id" element={<Hotel />} />
 							<Route path="*" element={<ErrorPage status="404" />} />

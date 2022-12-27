@@ -20,6 +20,7 @@ const Dashboard = () => {
 	const { t } = useTranslation();
 	const navigate = useNavigate();
 
+	const [loading, setLoading] = useState(true);
 	const [data, setData] = useState([]);
 	const [editingId, setEditingId] = useState(null);
 	// const [search, setSearch] = useState('');
@@ -27,10 +28,14 @@ const Dashboard = () => {
 
 	const get = () =>
 		Api.get('/hotels')
-			.then(res => setData(res.data))
+			.then(res => {
+				setLoading(false);
+				setData(res.data);
+			})
 			.catch(err => err.globalHandler && err.globalHandler());
 
 	useEffect(() => {
+		setLoading(true);
 		get();
 	}, []);
 
@@ -167,6 +172,7 @@ const Dashboard = () => {
 				<Table
 					className="hotel-table"
 					rowKey="id"
+					loading={loading}
 					columns={columns}
 					dataSource={data}
 					addButton

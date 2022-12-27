@@ -101,6 +101,12 @@ body {
 	.content-panel {
 		height: 100%;
 
+		.content-loading {
+			.ant-row {
+				min-height: 50vh;
+			}
+		}
+
 		.content-children {
 			position: relative;
 			z-index: 1;
@@ -176,6 +182,18 @@ body {
 
 				.subtitle {
 					margin-top: 5px;
+				}
+			}
+
+			.ant-skeleton {
+				width: 70%;
+				.ant-skeleton-title {
+					height: 1.4em;
+					margin: 0;
+
+					@media screen and (min-width: @screen-md) {
+						height: 1.8em;
+					}
 				}
 			}
 		}

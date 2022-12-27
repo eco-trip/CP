@@ -30,11 +30,12 @@
 		"hotels": "Hotels"
 	},
 	"hotels": {
-		"id": "ID",
 		"name": "Name",
 		"namePlaceholder": "Insert name..."
 	},
 	"hotel": {
+		"details": "Details",
+		"rooms": "Rooms",
 		"info": "Information",
 		"name": "Name",
 		"description": "Description",
@@ -43,5 +44,9 @@
 		"city": "City",
 		"address": "Address",
 		"zipcode": "Zipcode"
+	},
+	"rooms": {
+		"floor": "floor",
+		"number": "number"
 	}
 }

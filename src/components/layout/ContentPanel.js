@@ -1,13 +1,21 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
-import { Typography, Button } from 'antd';
+import { Typography, Button, Skeleton, Row, Col, Spin } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleLeft } from '@fortawesome/pro-solid-svg-icons';
 import Sticky from 'react-stickynode';
 
 const { Title } = Typography;
 
-const ContentPanel = ({ children, title, subtitle = false, back = false, borderless = false, withTabs = false }) => {
+const ContentPanel = ({
+	children,
+	title,
+	subtitle = false,
+	back = false,
+	borderless = false,
+	withTabs = false,
+	loading = false
+}) => {
 	const titleContainer =
 		title || subtitle ? (
 			<div id="title-container">
@@ -18,6 +26,12 @@ const ContentPanel = ({ children, title, subtitle = false, back = false, borderl
 			''
 		);
 
+	const titleSkeleton = (
+		<div id="title-container">
+			<Skeleton title paragraph={false} active />
+		</div>
+	);
+
 	const titleBox = (
 		<div id="title-box">
 			{back && (
@@ -27,7 +41,7 @@ const ContentPanel = ({ children, title, subtitle = false, back = false, borderl
 					</Button>
 				</div>
 			)}
-			{titleContainer}
+			{loading ? titleSkeleton : titleContainer}
 		</div>
 	);
 
@@ -37,7 +51,9 @@ const ContentPanel = ({ children, title, subtitle = false, back = false, borderl
 			{withTabs ? (
 				<div className={'content-tabs' + (back ? ' with-back' : '')}>{children}</div>
 			) : (
-				<div className={'content-children' + (borderless ? ' borderless' : '')}>{children}</div>
+				<div className={'content-children' + (borderless ? ' borderless' : '')}>
+					{loading ? <ContentLoading /> : children}
+				</div>
 			)}
 		</div>
 	);
@@ -56,3 +72,13 @@ export const renderTabBar = (props, DefaultTabBar) => {
 		</Sticky>
 	);
 };
+
+export const ContentLoading = () => (
+	<div className="content-loading">
+		<Row type="flex" justify="center" align="middle">
+			<Col>
+				<Spin />
+			</Col>
+		</Row>
+	</div>
+);

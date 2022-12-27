@@ -33,5 +33,15 @@
 		"id": "ID",
 		"name": "Name",
 		"namePlaceholder": "Insert name..."
+	},
+	"hotel": {
+		"info": "Information",
+		"name": "Name",
+		"description": "Description",
+		"cost": "Cost",
+		"country": "Country",
+		"city": "City",
+		"address": "Address",
+		"zipcode": "Zipcode"
 	}
 }

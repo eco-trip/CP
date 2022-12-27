@@ -33,5 +33,15 @@
 		"id": "ID",
 		"name": "Nome",
 		"namePlaceholder": "Inserisci il nome..."
+	},
+	"hotel": {
+		"info": "Informazioni",
+		"name": "Nome",
+		"description": "Descrizione",
+		"cost": "Costo",
+		"country": "Nazione",
+		"city": "Città",
+		"address": "Indirizzo",
+		"zipcode": "Cap"
 	}
 }

@@ -37,41 +37,41 @@ const HotelDetails = ({ hotel, onSave }) => {
 	};
 
 	return (
-		<Card title={t('hotel.info')}>
+		<Card title={t('hotels.info')}>
 			<Form form={form} layout="vertical" onFinish={data => saveInfo(data)}>
 				<Row className="gutter-row">
 					<Col xs={24} md={12}>
-						<Form.Item name="name" label={t('hotel.name')}>
+						<Form.Item name="name" label={t('hotels.name')}>
 							<Input />
 						</Form.Item>
 					</Col>
 					<Col xs={24} md={12}>
-						<Form.Item name="cost" label={t('hotel.cost')}>
+						<Form.Item name="cost" label={t('hotels.cost')}>
 							<InputNumber />
 						</Form.Item>
 					</Col>
 					<Col xs={24}>
-						<Form.Item name="description" label={t('hotel.description')}>
+						<Form.Item name="description" label={t('hotels.description')}>
 							<Input.TextArea rows={3} />
 						</Form.Item>
 					</Col>
 					<Col xs={24} md={12}>
-						<Form.Item name="country" label={t('hotel.country')}>
+						<Form.Item name="country" label={t('hotels.country')}>
 							<CountrySelect />
 						</Form.Item>
 					</Col>
 					<Col xs={24} md={12}>
-						<Form.Item name="city" label={t('hotel.city')}>
+						<Form.Item name="city" label={t('hotels.city')}>
 							<Input />
 						</Form.Item>
 					</Col>
 					<Col xs={24} md={12}>
-						<Form.Item name="address" label={t('hotel.address')}>
+						<Form.Item name="address" label={t('hotels.address')}>
 							<Input />
 						</Form.Item>
 					</Col>
 					<Col xs={24} md={12}>
-						<Form.Item name="zipcode" label={t('hotel.zipcode')}>
+						<Form.Item name="zipcode" label={t('hotels.zipcode')}>
 							<Input />
 						</Form.Item>
 					</Col>

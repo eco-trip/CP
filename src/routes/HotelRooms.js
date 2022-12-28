@@ -1,9 +1,8 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useState, useEffect } from 'react';
-import { Form, Input } from 'antd';
+import { Form, Input, InputNumber, Tag } from 'antd';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
 
 import Table from '../components/layout/Table';
 import {
@@ -17,12 +16,10 @@ import Api from '../helpers/Api';
 
 const Hotels = ({ hotel }) => {
 	const { t } = useTranslation();
-	const navigate = useNavigate();
 
 	const [loading, setLoading] = useState(true);
 	const [data, setData] = useState([]);
 	const [editingId, setEditingId] = useState(null);
-	// const [search, setSearch] = useState('');
 	const [form] = Form.useForm();
 
 	const get = () =>
@@ -34,17 +31,11 @@ const Hotels = ({ hotel }) => {
 			.catch(err => err.globalHandler && err.globalHandler());
 
 	useEffect(() => {
-		setLoading(true);
-		get();
+		if (hotel?.id) {
+			setLoading(true);
+			get();
+		}
 	}, [hotel]);
-
-	/*
-	useEffect(() => {
-		const toDisplay = data.filter(e => e.name.toLowerCase().includes(search.toLowerCase()));
-
-		setData([...toDisplay]);
-	}, [search]);
-	*/
 
 	const cancel = () => {
 		setEditingId(null);
@@ -130,24 +121,26 @@ const Hotels = ({ hotel }) => {
 		{
 			dataIndex: 'id',
 			key: 'id',
-			width: '40%',
+			className: 'table-id',
 			render: (value, record) =>
 				isEditing(record) ? (
 					value === 0 ? (
-						<span className="small-cell-text">-</span>
+						<Tag>-</Tag>
 					) : (
 						<Form.Item name="id">
-							<Input disabled />
+							<Input size="small" disabled />
 						</Form.Item>
 					)
 				) : (
-					<span className="small-cell-text">{value}</span>
+					<Tag>{value}</Tag>
 				)
 		},
 		{
 			title: t('rooms.floor'),
 			dataIndex: 'floor',
 			key: 'floor',
+			sorter: (a, b) => a.floor - b.floor,
+			defaultSortOrder: 'ascend',
 			render: (value, record) =>
 				isEditing(record) ? (
 					<Form.Item
@@ -159,7 +152,7 @@ const Hotels = ({ hotel }) => {
 							}
 						]}
 					>
-						<Input placeholder={t('hotels.namePlaceholder')} autoFocus />
+						<InputNumber autoFocus />
 					</Form.Item>
 				) : (
 					value
@@ -169,6 +162,8 @@ const Hotels = ({ hotel }) => {
 			title: t('rooms.number'),
 			dataIndex: 'number',
 			key: 'number',
+			sorter: (a, b) => a.number - b.number,
+			defaultSortOrder: 'ascend',
 			render: (value, record) =>
 				isEditing(record) ? (
 					<Form.Item
@@ -180,7 +175,7 @@ const Hotels = ({ hotel }) => {
 							}
 						]}
 					>
-						<Input placeholder={t('hotels.namePlaceholder')} autoFocus />
+						<Input />
 					</Form.Item>
 				) : (
 					value
@@ -207,8 +202,6 @@ const Hotels = ({ hotel }) => {
 				onEdit={record => edit(record)}
 				onSave={save}
 				onEnter={save}
-				// searchBar
-				// onChangeSearchBar={e => setSearch(e.target.value)}
 				isTableEditing={editingId !== null}
 				onRow={record => ({
 					onDoubleClick: () => !editingId !== null && record.id && edit(record)

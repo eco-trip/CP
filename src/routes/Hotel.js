@@ -52,7 +52,7 @@ const Hotel = () => {
 			label: (
 				<span>
 					<FontAwesomeIcon icon={faCircleInfo} />
-					{t('hotel.details')}
+					{t('hotels.details')}
 				</span>
 			),
 			children: <HotelDetails hotel={hotel} TabKeys={TabKeys} onSave={getHotel} />
@@ -62,7 +62,7 @@ const Hotel = () => {
 			label: (
 				<span>
 					<FontAwesomeIcon icon={faLayerGroup} />
-					{t('hotel.rooms')}
+					{t('hotels.rooms')}
 				</span>
 			),
 			children: <HotelRooms hotel={hotel} TabKeys={TabKeys} />

@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle, faSync, faExclamationCircle } from '@fortawesome/pro-solid-svg-icons';
 
-import Api from '../../helpers/api';
+import Api from '../../helpers/Api';
 
 const APICheck = props => {
 	const [message, setMessage] = useState('Loading...');

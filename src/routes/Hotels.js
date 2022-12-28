@@ -1,7 +1,6 @@
 /* eslint-disable no-nested-ternary */
-/* eslint-disable react/jsx-props-no-spreading */
 import React, { useState, useEffect } from 'react';
-import { Form, Input } from 'antd';
+import { Form, Input, InputNumber, Tag } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
@@ -23,7 +22,6 @@ const Hotels = () => {
 	const [loading, setLoading] = useState(true);
 	const [data, setData] = useState([]);
 	const [editingId, setEditingId] = useState(null);
-	// const [search, setSearch] = useState('');
 	const [form] = Form.useForm();
 
 	const get = () =>
@@ -39,14 +37,6 @@ const Hotels = () => {
 		get();
 	}, []);
 
-	/*
-	useEffect(() => {
-		const toDisplay = data.filter(e => e.name.toLowerCase().includes(search.toLowerCase()));
-
-		setData([...toDisplay]);
-	}, [search]);
-	*/
-
 	const cancel = () => {
 		setEditingId(null);
 		get();
@@ -56,8 +46,9 @@ const Hotels = () => {
 
 	const edit = record => {
 		form.setFieldsValue({
+			id: record.id,
 			name: record.name || '',
-			id: record.id
+			cost: record.cost || ''
 		});
 
 		setEditingId(record.id);
@@ -67,14 +58,16 @@ const Hotels = () => {
 		if (editingId !== null) return;
 
 		form.setFieldsValue({
+			id: 0,
 			name: '',
-			id: 0
+			cost: ''
 		});
 
 		setData([
 			{
+				id: 0,
 				name: '',
-				id: 0
+				cost: ''
 			},
 			...data
 		]);
@@ -85,11 +78,11 @@ const Hotels = () => {
 	const save = async record => {
 		if (editingId === null) return null;
 
-		loadingNotification();
-
 		try {
 			const row = await form.validateFields();
 			delete row.id;
+
+			loadingNotification();
 
 			let upsert;
 			if (editingId === 0) {
@@ -128,18 +121,18 @@ const Hotels = () => {
 		{
 			dataIndex: 'id',
 			key: 'id',
-			width: '40%',
+			className: 'table-id',
 			render: (value, record) =>
 				isEditing(record) ? (
 					value === 0 ? (
-						<span className="small-cell-text">-</span>
+						<Tag>-</Tag>
 					) : (
 						<Form.Item name="id">
-							<Input disabled />
+							<Input size="small" disabled />
 						</Form.Item>
 					)
 				) : (
-					<span className="small-cell-text">{value}</span>
+					<Tag>{value}</Tag>
 				)
 		},
 		{
@@ -157,7 +150,27 @@ const Hotels = () => {
 							}
 						]}
 					>
-						<Input placeholder={t('hotels.namePlaceholder')} autoFocus />
+						<Input autoFocus />
+					</Form.Item>
+				) : (
+					value
+				)
+		},
+		{
+			title: t('hotels.cost'),
+			dataIndex: 'cost',
+			key: 'cost',
+			render: (value, record) =>
+				isEditing(record) ? (
+					<Form.Item
+						name="cost"
+						rules={[
+							{
+								required: false
+							}
+						]}
+					>
+						<InputNumber />
 					</Form.Item>
 				) : (
 					value
@@ -185,8 +198,6 @@ const Hotels = () => {
 					onEdit={record => navigate(`/hotels/${record.id}`)}
 					onSave={save}
 					onEnter={save}
-					// searchBar
-					// onChangeSearchBar={e => setSearch(e.target.value)}
 					isTableEditing={editingId !== null}
 					onRow={record => ({
 						onDoubleClick: () => !editingId !== null && record.id && edit(record)

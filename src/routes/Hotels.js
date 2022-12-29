@@ -1,6 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import React, { useState, useEffect } from 'react';
-import { Form, Input, InputNumber, Tag } from 'antd';
+import { Form, Input, InputNumber, Tag, Typography, Space } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
@@ -14,6 +14,8 @@ import {
 } from '../components/controls/Notifications';
 
 import Api from '../helpers/Api';
+
+const { Text } = Typography;
 
 const Hotels = () => {
 	const { t } = useTranslation();
@@ -170,10 +172,15 @@ const Hotels = () => {
 							}
 						]}
 					>
-						<InputNumber />
+						<InputNumber addonAfter="CO2/kw" />
 					</Form.Item>
 				) : (
-					value
+					<Space direction="horizontal">
+						{value}
+						<Text type="secondary" className="">
+							CO2/kw
+						</Text>
+					</Space>
 				)
 		}
 	];

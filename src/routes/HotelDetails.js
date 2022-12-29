@@ -47,7 +47,7 @@ const HotelDetails = ({ hotel, onSave }) => {
 					</Col>
 					<Col xs={24} md={12}>
 						<Form.Item name="cost" label={t('hotels.cost')}>
-							<InputNumber />
+							<InputNumber addonAfter="CO2/kw" />
 						</Form.Item>
 					</Col>
 					<Col xs={24}>

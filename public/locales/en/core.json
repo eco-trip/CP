@@ -5,6 +5,7 @@
 		"201": "Please complete this field",
 		"202": "Additional parameters are not permitted",
 		"210": "Invalid email",
+		"211": "Password too simple, enter at least one uppercase character, one symbol and one number",
 		"212": "Cannot upload the file",
 		"213": "The file size must be less then %s MB!",
 		"300": "Wrong email",

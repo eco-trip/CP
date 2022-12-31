@@ -4,17 +4,19 @@ import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import { Tabs } from 'antd';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleInfo, faLayerGroup } from '@fortawesome/pro-solid-svg-icons';
+import { faCircleInfo, faLayerGroup, faUser } from '@fortawesome/pro-solid-svg-icons';
 
 import ContentPanel, { renderTabBar } from '../components/layout/ContentPanel';
 import Api from '../helpers/Api';
 
 import HotelDetails from './HotelDetails';
+import HotelUser from './HotelUser';
 import HotelRooms from './HotelRooms';
 
 const TabKeys = {
 	Detail: '0',
-	Rooms: '1'
+	User: '1',
+	Rooms: '2'
 };
 
 const Hotel = () => {
@@ -56,6 +58,16 @@ const Hotel = () => {
 				</span>
 			),
 			children: <HotelDetails hotel={hotel} TabKeys={TabKeys} onSave={getHotel} />
+		},
+		{
+			key: TabKeys.User,
+			label: (
+				<span>
+					<FontAwesomeIcon icon={faUser} />
+					{t('hotels.user')}
+				</span>
+			),
+			children: <HotelUser hotel={hotel} TabKeys={TabKeys} />
 		},
 		{
 			key: TabKeys.Rooms,

@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router-dom';
 import { Card, Form, Row, Col, Input, Button, InputNumber } from 'antd';
 
 import {
@@ -15,7 +14,6 @@ import Api from '../helpers/Api';
 
 const HotelDetails = ({ hotel, onSave }) => {
 	const { t } = useTranslation();
-	const { id: hotelId } = useParams();
 
 	const [form] = Form.useForm();
 
@@ -26,7 +24,7 @@ const HotelDetails = ({ hotel, onSave }) => {
 	const saveInfo = data => {
 		loadingNotification();
 
-		return Api.patch(`/hotels/${hotelId}`, data)
+		return Api.patch(`/hotels/${hotel.id}`, data)
 			.then(() => notification.close('loading'))
 			.then(() => savedNotification())
 			.then(() => onSave())

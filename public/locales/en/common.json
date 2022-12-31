@@ -31,6 +31,7 @@
 	},
 	"hotels": {
 		"details": "Details",
+		"user": "User",
 		"rooms": "Rooms",
 		"info": "Information",
 		"name": "Name",
@@ -44,5 +45,10 @@
 	"rooms": {
 		"floor": "Floor",
 		"number": "Number"
+	},
+	"user": {
+		"add": "Aggiungi utente",
+		"name": "Name",
+		"lastname": "Lastname"
 	}
 }

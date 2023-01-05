@@ -1,6 +1,14 @@
 @buttonCellWidth: 40px;
 
 .responsive-table {
+	overflow: hidden;
+
+	.ant-table {
+		overflow: auto;
+	}
+}
+
+/*
 	.breakpoint-only-xs {
 		.ant-table {
 			padding: 2% 2%;
@@ -34,7 +42,7 @@
 		}
 
 		td {
-			/* Behave  like a "row" */
+			
 			background-color: #ffffff;
 			border: none;
 			display: flex;
@@ -56,9 +64,7 @@
 			}
 
 			.responsive-table-cell:before {
-				/* Now like a table header */
 				position: absolute;
-				/* Top/left values mimic padding */
 				top: -2px;
 				left: -2px;
 				display: flex;
@@ -75,6 +81,7 @@
 		}
 	}
 }
+*/
 
 .table-header {
 	width: 100%;

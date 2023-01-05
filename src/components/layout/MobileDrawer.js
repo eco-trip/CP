@@ -24,7 +24,7 @@ const MobileDrawer = props => {
 			placement="left"
 			width="90vw"
 			onClose={() => close()}
-			visible={show}
+			open={show}
 		>
 			<div className="mobile-drawer-inner">
 				<div className="mobile-menu">

@@ -21,3 +21,35 @@
 		}
 	}
 }
+
+/*StaysList*/
+.stays-list {
+	.ant-ribbon-wrapper {
+		width: 100%;
+		.ant-ribbon {
+			top: 0;
+		}
+	}
+
+	.ant-card {
+		width: 100%;
+		p:last-child {
+			margin-bottom: 0;
+		}
+	}
+
+	.ant-card-extra {
+		.ant-btn-text {
+			color: @gray-color;
+
+			&:hover,
+			&:focus {
+				color: @error-color;
+			}
+		}
+	}
+
+	.ant-tag.stay-id {
+		display: inline !important;
+	}
+}

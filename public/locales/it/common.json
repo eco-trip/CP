@@ -51,5 +51,11 @@
 	"user": {
 		"name": "Name",
 		"lastname": "Lastname"
+	},
+	"stays": {
+		"title": "Prenotazione",
+		"start": "Start",
+		"end": "End",
+		"open": "APERTA"
 	}
 }

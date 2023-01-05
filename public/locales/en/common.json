@@ -52,5 +52,11 @@
 		"add": "Aggiungi utente",
 		"name": "Name",
 		"lastname": "Lastname"
+	},
+	"stays": {
+		"title": "Stay",
+		"start": "Start",
+		"end": "End",
+		"open": "OPEN"
 	}
 }

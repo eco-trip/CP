@@ -25,13 +25,22 @@ export const AppProvider = props => {
 	const [sessionInfo, setSessionInfo] = useState({});
 	const [logged, setLogged] = useState({});
 
-	const menuItems = [
-		{
-			label: <Link to="/hotels">{t('menu.hotels')}</Link>,
-			key: 'hotels',
-			icon: <FontAwesomeIcon icon={faHotel} />
-		}
-	];
+	const menuItems = {
+		admin: [
+			{
+				label: <Link to="/hotels">{t('menu.hotels')}</Link>,
+				key: 'hotels',
+				icon: <FontAwesomeIcon icon={faHotel} />
+			}
+		],
+		hotelier: [
+			{
+				label: <Link to="/">{t('menu.dashboard')}</Link>,
+				key: 'hotels',
+				icon: <FontAwesomeIcon icon={faHotel} />
+			}
+		]
+	};
 
 	const getSessionInfo = async () => {
 		try {

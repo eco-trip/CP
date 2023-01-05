@@ -18,10 +18,12 @@ import Hotel from './Hotel';
 const { Content, Sider } = Layout;
 
 const Index = () => {
-	const { authStatus } = useContext(AppContext);
+	const { authStatus, logged } = useContext(AppContext);
 	const [collapsed, setCollapsed] = useState(false);
 
 	if (authStatus === AuthStatus.Loading) return <FullpageLoading />;
+
+	console.log(logged);
 
 	return (
 		<BrowserRouter>
@@ -44,9 +46,15 @@ const Index = () => {
 					</Sider>
 					<Content>
 						<Routes>
-							<Route exact path="/" element={<Hotels />} />
-							<Route exact path="/hotels" element={<Hotels />} />
-							<Route exact path="/hotels/:id" element={<Hotel />} />
+							{logged['custom:role'] === 'hotelier' ? (
+								<Route exact path="/" element={<Hotel id={logged['custom:hotelId']} />} />
+							) : (
+								<>
+									<Route exact path="/" element={<Hotels />} />
+									<Route exact path="/hotels" element={<Hotels />} />
+									<Route exact path="/hotels/:id" element={<Hotel />} />
+								</>
+							)}
 							<Route path="*" element={<ErrorPage status="404" />} />
 						</Routes>
 					</Content>

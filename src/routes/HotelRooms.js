@@ -11,6 +11,7 @@ import {
 	errorNotification,
 	notification
 } from '../components/controls/Notifications';
+import CheckInButton from '../components/CheckInButton';
 
 import Api from '../helpers/Api';
 
@@ -23,7 +24,7 @@ const Hotels = ({ hotel }) => {
 	const [form] = Form.useForm();
 
 	const get = () =>
-		Api.get(`/hotels/${hotel.id}/rooms`, data)
+		Api.get(`/hotels/${hotel.id}/rooms`)
 			.then(res => {
 				setLoading(false);
 				setData(res.data);
@@ -180,6 +181,14 @@ const Hotels = ({ hotel }) => {
 				) : (
 					value
 				)
+		},
+		{
+			title: '',
+			dataIndex: 'currentStay',
+			key: 'currentStay',
+			className: 'table-button',
+			render: (value, record) =>
+				isEditing(record) ? <CheckInButton roomId={record.id} disabled /> : <CheckInButton roomId={record.id} />
 		}
 	];
 

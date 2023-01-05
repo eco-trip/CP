@@ -177,9 +177,7 @@ const Hotels = () => {
 				) : (
 					<Space direction="horizontal">
 						{value}
-						<Text type="secondary" className="">
-							CO2/kw
-						</Text>
+						<Text type="secondary">CO2/kw</Text>
 					</Space>
 				)
 		}

@@ -44,7 +44,9 @@
 	},
 	"rooms": {
 		"floor": "Piano",
-		"number": "Numero"
+		"number": "Numero",
+		"checkin": "Check In",
+		"checkout": "Check Out"
 	},
 	"user": {
 		"name": "Name",

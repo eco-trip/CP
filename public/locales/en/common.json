@@ -44,7 +44,9 @@
 	},
 	"rooms": {
 		"floor": "Floor",
-		"number": "Number"
+		"number": "Number",
+		"checkin": "Check In",
+		"checkout": "Check Out"
 	},
 	"user": {
 		"add": "Aggiungi utente",

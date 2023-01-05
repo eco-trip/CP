@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 import Api from '../helpers/Api';
 
-const CheckInButton = ({ roomId, disabled }) => {
+const CheckInButton = ({ roomId, disabled, refresh, onCheckIn }) => {
 	const { t } = useTranslation();
 
 	const [loading, setLoading] = useState(true);
@@ -20,7 +20,7 @@ const CheckInButton = ({ roomId, disabled }) => {
 				setLoading(false);
 				return err.globalHandler && err.globalHandler();
 			});
-	}, []);
+	}, [refresh]);
 
 	const onClick = () => {
 		setLoading(true);
@@ -30,6 +30,7 @@ const CheckInButton = ({ roomId, disabled }) => {
 				.then(res => {
 					setLoading(false);
 					setStay(res.data);
+					onCheckIn(roomId);
 				})
 				.catch(err => {
 					setLoading(false);
@@ -40,6 +41,7 @@ const CheckInButton = ({ roomId, disabled }) => {
 				.then(res => {
 					setLoading(false);
 					setStay(null);
+					onCheckIn(roomId);
 				})
 				.catch(err => {
 					setLoading(false);

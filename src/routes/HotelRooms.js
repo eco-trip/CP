@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unstable-nested-components */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useState, useEffect } from 'react';
@@ -12,6 +13,7 @@ import {
 	notification
 } from '../components/controls/Notifications';
 import CheckInButton from '../components/CheckInButton';
+import StaysList from '../components/StaysList';
 
 import Api from '../helpers/Api';
 
@@ -118,6 +120,14 @@ const Hotels = ({ hotel }) => {
 			});
 	};
 
+	const refreshRoom = roomId =>
+		setData(prevDate =>
+			prevDate.map(item => {
+				if (item.id === roomId) return { ...item, refresh: new Date().toISOString() };
+				return { ...item };
+			})
+		);
+
 	const columns = [
 		{
 			dataIndex: 'id',
@@ -187,8 +197,14 @@ const Hotels = ({ hotel }) => {
 			dataIndex: 'currentStay',
 			key: 'currentStay',
 			className: 'table-button',
-			render: (value, record) =>
-				isEditing(record) ? <CheckInButton roomId={record.id} disabled /> : <CheckInButton roomId={record.id} />
+			render: (value, record) => (
+				<CheckInButton
+					roomId={record.id}
+					refresh={record.refresh}
+					disabled={isEditing(record)}
+					onCheckIn={refreshRoom}
+				/>
+			)
 		}
 	];
 
@@ -212,6 +228,8 @@ const Hotels = ({ hotel }) => {
 				onSave={save}
 				onEnter={save}
 				isTableEditing={editingId !== null}
+				rowExpandable={record => true}
+				expandedRowRender={record => <StaysList roomId={record.id} refresh={record.refresh} onStayDel={refreshRoom} />}
 				onRow={record => ({
 					onDoubleClick: () => !editingId !== null && record.id && edit(record)
 				})}

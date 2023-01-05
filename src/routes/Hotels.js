@@ -172,7 +172,7 @@ const Hotels = () => {
 							}
 						]}
 					>
-						<InputNumber addonAfter="CO2/kw" />
+						<InputNumber step="0.01" addonAfter="CO2/kw" />
 					</Form.Item>
 				) : (
 					<Space direction="horizontal">

@@ -75,8 +75,19 @@ body {
 
 	.main-sider {
 		display: none;
+		border-right: 1px solid @gray-border;
 
-		@media screen and (min-width: @screen-md) {
+		.ant-layout-sider-trigger {
+			border-right: 1px solid @gray-border;
+		}
+
+		.ant-menu-inline,
+		.ant-menu-vertical,
+		.ant-menu-vertical-left {
+			border: 0;
+		}
+
+		@media screen and (min-width: @screen-lg) {
 			display: block;
 			min-height: calc(100vh - @topbar-height);
 		}

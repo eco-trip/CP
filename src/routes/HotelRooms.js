@@ -197,14 +197,17 @@ const Hotels = ({ hotel }) => {
 			dataIndex: 'currentStay',
 			key: 'currentStay',
 			className: 'table-button',
-			render: (value, record) => (
-				<CheckInButton
-					roomId={record.id}
-					refresh={record.refresh}
-					disabled={isEditing(record)}
-					onCheckIn={refreshRoom}
-				/>
-			)
+			render: (value, record) =>
+				isEditing(record) ? (
+					<Tag>-</Tag>
+				) : (
+					<CheckInButton
+						roomId={record.id}
+						refresh={record.refresh}
+						disabled={isEditing(record)}
+						onCheckIn={refreshRoom}
+					/>
+				)
 		}
 	];
 

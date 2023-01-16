@@ -11,6 +11,7 @@ const CheckInButton = ({ roomId, disabled, refresh, onCheckIn }) => {
 	const [stay, setStay] = useState(null);
 
 	useEffect(() => {
+		if (!roomId) return;
 		Api.get(`/rooms/${roomId}/currentStay`)
 			.then(res => {
 				setLoading(false);

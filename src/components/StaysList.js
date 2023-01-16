@@ -82,7 +82,7 @@ const StaysList = ({ roomId, onStayDel, refresh }) => {
 					{item.endTime ? (
 						card(item)
 					) : (
-						<Badge.Ribbon text={t('stays.open')} placement="start">
+						<Badge.Ribbon text={t('stays.open')} placement="start" color="cyan">
 							{card(item)}
 						</Badge.Ribbon>
 					)}

@@ -6,6 +6,7 @@ import { AppProvider } from './helpers/AppContext';
 import { ApiInterceptor } from './helpers/Api';
 
 import './helpers/i18n';
+// eslint-disable-next-line import/no-unresolved
 import './styles/app.css';
 
 const container = document.getElementById('root');

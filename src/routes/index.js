@@ -23,8 +23,6 @@ const Index = () => {
 
 	if (authStatus === AuthStatus.Loading) return <FullpageLoading />;
 
-	console.log(logged);
-
 	return (
 		<BrowserRouter>
 			{authStatus === AuthStatus.Loading ? (

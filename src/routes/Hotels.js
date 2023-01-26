@@ -50,7 +50,8 @@ const Hotels = () => {
 		form.setFieldsValue({
 			id: record.id,
 			name: record.name || '',
-			cost: record.cost || ''
+			electricityCost: record.electricityCost || '',
+			hotWaterCost: record.hotWaterCost || ''
 		});
 
 		setEditingId(record.id);
@@ -62,14 +63,16 @@ const Hotels = () => {
 		form.setFieldsValue({
 			id: 0,
 			name: '',
-			cost: ''
+			electricityCost: '',
+			hotWaterCost: ''
 		});
 
 		setData([
 			{
 				id: 0,
 				name: '',
-				cost: ''
+				electricityCost: '',
+				hotWaterCost: ''
 			},
 			...data
 		]);
@@ -159,13 +162,13 @@ const Hotels = () => {
 				)
 		},
 		{
-			title: t('hotels.cost'),
-			dataIndex: 'cost',
-			key: 'cost',
+			title: 'CO2/kw',
+			dataIndex: 'electricityCost',
+			key: 'electricityCost',
 			render: (value, record) =>
 				isEditing(record) ? (
 					<Form.Item
-						name="cost"
+						name="electricityCost"
 						rules={[
 							{
 								required: false
@@ -178,6 +181,29 @@ const Hotels = () => {
 					<Space direction="horizontal">
 						{value}
 						<Text type="secondary">CO2/kw</Text>
+					</Space>
+				)
+		},
+		{
+			title: 'CO2/l',
+			dataIndex: 'hotWaterCost',
+			key: 'hotWaterCost',
+			render: (value, record) =>
+				isEditing(record) ? (
+					<Form.Item
+						name="hotWaterCost"
+						rules={[
+							{
+								required: false
+							}
+						]}
+					>
+						<InputNumber step="0.01" addonAfter="CO2/l" />
+					</Form.Item>
+				) : (
+					<Space direction="horizontal">
+						{value}
+						<Text type="secondary">CO2/l</Text>
 					</Space>
 				)
 		}

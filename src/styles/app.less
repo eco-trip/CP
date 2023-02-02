@@ -1,0 +1,32 @@
+@import '../../node_modules/antd/dist/antd.less';
+@import './theme.less';
+@import './utils.less';
+@import './ant.less';
+@import './layout.less';
+@import './table.less';
+@import './components.less';
+
+.result-icon {
+	font-size: 60px;
+	color: @primary-color;
+	margin-bottom: -19px;
+}
+
+.dynamic-delete-button {
+	position: relative;
+	top: 4px;
+	margin: 2px 8px;
+	color: @gray-color;
+	font-size: 18px;
+	cursor: pointer;
+	transition: all 0.3s;
+}
+
+.dynamic-delete-button:hover {
+	color: @error-color;
+}
+
+.dynamic-delete-button[disabled] {
+	cursor: not-allowed;
+	opacity: 0.5;
+}

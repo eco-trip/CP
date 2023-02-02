@@ -1,0 +1,190 @@
+AWSTemplateFormatVersion: 2010-09-09
+Transform: AWS::Serverless-2016-10-31
+
+Parameters:
+  URI:
+    Type: String
+    Description: The URI used to name resources [projectName-env-gitUsername]
+  Url:
+    Type: String
+    Description: Url hosting the Application
+  AcmArn:
+    Type: String
+    Description: The ARN of the ssl certificate genereted on ACM
+  HostedZoneId:
+    Type: String
+    Description: Hosted zone Id on route 53
+
+Resources:
+  WebBucket:
+    Type: 'AWS::S3::Bucket'
+    Properties:
+      BucketName: !Ref Url
+      WebsiteConfiguration:
+        IndexDocument: index.html
+        ErrorDocument: index.html
+      CorsConfiguration:
+        CorsRules:
+          - AllowedHeaders:
+              - '*'
+            AllowedMethods:
+              - PUT
+              - POST
+              - DELETE
+              - GET
+            AllowedOrigins:
+              - '*'
+            ExposedHeaders:
+              - x-amz-server-side-encryption
+              - x-amz-request-id
+              - x-amz-id-2
+            MaxAge: 3000
+  WebBucketPolicy:
+    Type: 'AWS::S3::BucketPolicy'
+    Properties:
+      Bucket: !Ref WebBucket
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Sid: AddPerm
+            Effect: Allow
+            Principal: '*'
+            Action: 's3:GetObject'
+            Resource: !Sub 'arn:aws:s3:::${WebBucket}/*'
+  WebCachePolicy:
+    Type: 'AWS::CloudFront::CachePolicy'
+    Properties:
+      CachePolicyConfig:
+        DefaultTTL: 31536000
+        MaxTTL: 31536000
+        MinTTL: 31536000
+        Name: !Sub '${URI}-cache-policy'
+        ParametersInCacheKeyAndForwardedToOrigin:
+          CookiesConfig:
+            CookieBehavior: none
+          EnableAcceptEncodingGzip: 'false'
+          HeadersConfig:
+            HeaderBehavior: none
+          QueryStringsConfig:
+            QueryStringBehavior: none
+  WebDistribution:
+    Type: 'AWS::CloudFront::Distribution'
+    Properties:
+      DistributionConfig:
+        HttpVersion: http2
+        Enabled: 'true'
+        DefaultRootObject: index.html
+        Origins:
+          - DomainName: !Select
+              - 1
+              - !Split
+                - '://'
+                - !GetAtt
+                  - WebBucket
+                  - WebsiteURL
+            Id: !Ref WebBucket
+            CustomOriginConfig:
+              HTTPPort: 80
+              HTTPSPort: 443
+              OriginProtocolPolicy: http-only
+        Aliases:
+          - !Ref WebBucket
+        ViewerCertificate:
+          AcmCertificateArn: !Ref AcmArn
+          SslSupportMethod: sni-only
+          MinimumProtocolVersion: TLSv1.2_2021
+        DefaultCacheBehavior:
+          AllowedMethods:
+            - DELETE
+            - GET
+            - HEAD
+            - OPTIONS
+            - PATCH
+            - POST
+            - PUT
+          TargetOriginId: !Ref WebBucket
+          CachePolicyId: !Ref WebCachePolicy
+          ViewerProtocolPolicy: redirect-to-https
+          Compress: true
+  CodeBuildWeb:
+    Type: 'AWS::CodeBuild::Project'
+    Properties:
+      Name: !Sub '${URI}-builder'
+      ServiceRole: !GetAtt
+        - CodeBuildRoleWeb
+        - Arn
+      Artifacts:
+        Type: S3
+        Name: /
+        EncryptionDisabled: true
+        Location: !Ref WebBucket
+      Environment:
+        ComputeType: BUILD_GENERAL1_SMALL
+        Type: LINUX_CONTAINER
+        Image: 'aws/codebuild/standard:5.0'
+      Source:
+        Type: S3
+        Location: !Sub '${URI}-source/'
+      LogsConfig:
+        CloudWatchLogs:
+          GroupName: !Sub '${URI}-builder-logs'
+          Status: ENABLED
+      ConcurrentBuildLimit: 1
+  CodeBuildWebLogs:
+    Type: 'AWS::Logs::LogGroup'
+    DeletionPolicy: Delete
+    UpdateReplacePolicy: Retain
+    Properties:
+      LogGroupName: !Sub '${URI}-builder-logs'
+      RetentionInDays: 14
+  CodeBuildRoleWeb:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - codebuild.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      Path: /service-role/
+      Policies:
+        - PolicyName: root
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 's3:GetObject'
+                  - 's3:GetObjectVersion'
+                  - 's3:GetBucketVersioning'
+                  - 's3:PutObject'
+                  - 's3:PutObjectAcl'
+                  - 's3:CreateBucket'
+                  - 's3:List*'
+                  - 'secretsmanager:GetSecretValue'
+                  - 'logs:CreateLogGroup'
+                  - 'logs:CreateLogStream'
+                  - 'logs:PutLogEvents'
+                  - 'cloudfront:CreateInvalidation'
+                Resource: '*'
+  RecordSetGroup:
+    Type: 'AWS::Route53::RecordSetGroup'
+    Properties:
+      HostedZoneId: !Ref HostedZoneId
+      RecordSets:
+        - AliasTarget:
+            DNSName: !GetAtt
+              - WebDistribution
+              - DomainName
+            EvaluateTargetHealth: 'false'
+            HostedZoneId: Z2FDTNDATAQYW2 #standard cloud front hosted zoneid
+          Name: !Ref Url
+          Type: A
+
+Outputs:
+  CloudFrontDistributionID:
+    Description: 'CloudFront distribution ID'
+    Value: !Ref WebDistribution

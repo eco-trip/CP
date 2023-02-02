@@ -1,0 +1,75 @@
+.breakpoint-medium(@rules) {
+	@media screen and (min-width: @screen-md) {
+		@rules();
+	}
+}
+
+.breakpoint-large(@rules) {
+	@media screen and (min-width: @screen-lg) {
+		@rules();
+	}
+}
+
+.breakpoint-small(@rules) {
+	@media screen and (min-width: @screen-sm) {
+		@rules();
+	}
+}
+
+.breakpoint-only-xs(@rules) {
+	@media screen and (max-width: @screen-sm) {
+		@rules();
+	}
+}
+
+.align-center {
+	text-align: center;
+}
+
+.align-left {
+	text-align: left;
+}
+
+.align-right {
+	text-align: right;
+}
+
+.row-reverse {
+	flex-direction: row-reverse;
+}
+
+.bg-cover {
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: cover;
+}
+
+.opt {
+	color: @gray-color;
+	font-size: 0.7em;
+	font-style: italic;
+}
+
+.ant-form-item-label .opt {
+	padding-left: 5px;
+	position: relative;
+	top: 2px;
+}
+
+.pre-line {
+	white-space: pre-line;
+}
+
+p.no-bottom,
+div.ant-typography.no-bottom,
+.ant-typography.no-bottom p,
+.ant-divider.no-bottom {
+	margin-bottom: 0 !important;
+}
+
+p.no-top,
+div.ant-typography.no-top,
+.ant-typography.no-top p,
+.ant-divider.no-top {
+	margin-top: 0 !important;
+}

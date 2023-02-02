@@ -1,0 +1,62 @@
+{
+	"common": {
+		"error": "Errore",
+		"success": "Successo",
+		"back": "Indietro",
+		"save": "Salva",
+		"sand": "Invia",
+		"noResults": "Nessun risultato trovato",
+		"yes": "Si",
+		"no": "No",
+		"exit": "Esci",
+		"confirm": "Conferma",
+		"cancel": "Annulla",
+		"stop": "Stop",
+		"other": "Altro",
+		"saved": "Salvato",
+		"saving": "Salvataggio",
+		"savingInProgress": "Salvataggio in corso",
+		"details": "Dettagli",
+		"sureToDelete": "Sicuro di volerlo cancellare?"
+	},
+	"login": {
+		"btn": "Accedi",
+		"title": "Accedi a Ecotrip",
+		"login": "Accedi",
+		"logout": "Esci"
+	},
+	"menu": {
+		"dashboard": "Dashboard",
+		"hotels": "Hotels"
+	},
+	"hotels": {
+		"details": "Dettagli",
+		"user": "Utente",
+		"rooms": "Stanze",
+		"info": "Informazioni",
+		"name": "Nome",
+		"description": "Descrizione",
+		"electricityCost": "Costo Elettricità",
+		"hotWaterCost": "Costo Acqua",
+		"country": "Nazione",
+		"city": "Città",
+		"address": "Indirizzo",
+		"zipcode": "Cap"
+	},
+	"rooms": {
+		"floor": "Piano",
+		"number": "Numero",
+		"checkin": "Check In",
+		"checkout": "Check Out"
+	},
+	"user": {
+		"name": "Name",
+		"lastname": "Lastname"
+	},
+	"stays": {
+		"title": "Prenotazione",
+		"start": "Start",
+		"end": "End",
+		"open": "APERTA"
+	}
+}

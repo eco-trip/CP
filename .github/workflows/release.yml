@@ -1,0 +1,37 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - release
+      - staging
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.MEBBOT }}
+
+      - name: Setup keys
+        env:
+          FontAwesomeKey: ${{ secrets.FONT_AWESOME_KEY }}
+        run: sed "s/__FontAwesomeKey__/${FontAwesomeKey}/g" .npmrc.template >.npmrc
+
+      - name: Semantic Release
+        uses: eco-trip/semantic-release-action@v1.0
+        with:
+          token: ${{ secrets.MEBBOT }}
+          checkout: false
+
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy
+        uses: eco-trip/ci-deploy-action@v1.0
+        with:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          token: ${{ secrets.MEBBOT }}

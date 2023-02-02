@@ -1,0 +1,55 @@
+/* User Info */
+.user-tpl {
+	.logged-info {
+		text-align: right;
+		p {
+			font-size: 12px;
+			line-height: 1.1;
+			margin: 0;
+		}
+		p.logged-info-sub {
+			color: @gray-color;
+		}
+	}
+
+	&.left {
+		.ant-space {
+			flex-direction: row-reverse;
+		}
+		.logged-info {
+			text-align: left;
+		}
+	}
+}
+
+/*StaysList*/
+.stays-list {
+	.ant-ribbon-wrapper {
+		width: 100%;
+		.ant-ribbon {
+			top: 0;
+		}
+	}
+
+	.ant-card {
+		width: 100%;
+		p:last-child {
+			margin-bottom: 0;
+		}
+	}
+
+	.ant-card-extra {
+		.ant-btn-text {
+			color: @gray-color;
+
+			&:hover,
+			&:focus {
+				color: @error-color;
+			}
+		}
+	}
+
+	.ant-tag.stay-id {
+		display: inline !important;
+	}
+}

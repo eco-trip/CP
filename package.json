@@ -1,0 +1,82 @@
+{
+	"name": "cp",
+	"author": "Matteo Brocca, Alan Mancini, Alberto Marfoglia",
+	"description": "Ecotrip Control Panel",
+	"private": true,
+	"scripts": {
+		"start": "concurrently --kill-others \"less-watch-compiler --config less-watcher.config.json\" \"react-scripts start\"",
+		"build": "react-scripts build",
+		"test": "react-scripts test",
+		"eject": "react-scripts eject",
+		"stylelint-check": "stylelint-config-prettier-check",
+		"lint": "eslint ./src --ext .js",
+		"format": "prettier --write **/*.{json,js,yml,md}",
+		"format:check": "prettier --check **/*.{json,js,yml,md}"
+	},
+	"browserslist": {
+		"production": [
+			">0.2%",
+			"not dead",
+			"not op_mini all"
+		],
+		"development": [
+			"last 1 chrome version",
+			"last 1 firefox version",
+			"last 1 safari version"
+		]
+	},
+	"dependencies": {
+		"@fortawesome/fontawesome-pro": "^6.1.2",
+		"@fortawesome/fontawesome-svg-core": "^6.1.2",
+		"@fortawesome/pro-solid-svg-icons": "^6.1.2",
+		"@fortawesome/react-fontawesome": "^0.2.0",
+		"amazon-cognito-identity-js": "^5.2.10",
+		"antd": "^4.23.2",
+		"aws-sdk": "^2.1196.0",
+		"axios": "^0.27.2",
+		"cross-fetch": "^3.1.5",
+		"crypto-js": "^4.1.1",
+		"i": "^0.3.7",
+		"i18n-iso-countries": "^7.5.0",
+		"i18next": "^21.9.1",
+		"i18next-browser-languagedetector": "^6.1.5",
+		"i18next-http-backend": "^1.4.1",
+		"js-cookie": "^3.0.1",
+		"moment": "^2.29.4",
+		"npm": "^9.2.0",
+		"query-string": "^7.1.1",
+		"react": "^18.2.0",
+		"react-dom": "^18.2.0",
+		"react-i18next": "^11.18.4",
+		"react-infinite-scroll-component": "^6.1.0",
+		"react-moment": "^1.1.2",
+		"react-router-dom": "^6.3.0",
+		"react-stickynode": "^4.1.0",
+		"sprintf-js": "^1.1.2"
+	},
+	"devDependencies": {
+		"@semantic-release/commit-analyzer": "^9.0.2",
+		"@semantic-release/exec": "^6.0.3",
+		"@semantic-release/git": "^10.0.1",
+		"@semantic-release/github": "^8.0.5",
+		"@semantic-release/npm": "^9.0.1",
+		"@semantic-release/release-notes-generator": "^10.0.3",
+		"autoprefixer": "^10.4.8",
+		"concurrently": "^7.3.0",
+		"conventional-changelog-conventionalcommits": "^5.0.0",
+		"eslint": "^8.22.0",
+		"eslint-config-airbnb": "^19.0.4",
+		"eslint-config-prettier": "^8.5.0",
+		"eslint-plugin-jsx-a11y": "^6.6.1",
+		"eslint-plugin-prettier": "^4.2.1",
+		"eslint-plugin-react": "^7.30.1",
+		"eslint-plugin-react-hooks": "^4.6.0",
+		"less": "^4.1.3",
+		"less-watch-compiler": "^1.16.3",
+		"prettier": "^2.7.1",
+		"react-scripts": "^5.0.1",
+		"stylelint": "^14.10.0",
+		"stylelint-config-prettier": "^9.0.3",
+		"stylelint-prettier": "^2.0.0"
+	}
+}

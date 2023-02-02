@@ -1,0 +1,63 @@
+{
+	"common": {
+		"error": "Error",
+		"success": "Success",
+		"back": "Back",
+		"save": "Save",
+		"sand": "Send",
+		"noResults": "No result found",
+		"yes": "Yes",
+		"no": "No",
+		"exit": "Exit",
+		"confirm": "Confirm",
+		"cancel": "Cancel",
+		"stop": "Stop",
+		"other": "Other",
+		"saved": "Saved",
+		"saving": "Saving",
+		"savingInProgress": "Saving in progress",
+		"details": "Details",
+		"sureToDelete": "Are you sure you want to delete this?"
+	},
+	"login": {
+		"btn": "Sign In",
+		"title": "Sign in Ecotrip",
+		"login": "Sign In",
+		"logout": "Logout"
+	},
+	"menu": {
+		"dashboard": "Dashboard",
+		"hotels": "Hotels"
+	},
+	"hotels": {
+		"details": "Details",
+		"user": "User",
+		"rooms": "Rooms",
+		"info": "Information",
+		"name": "Name",
+		"description": "Description",
+		"electricityCost": "Electricity Cost",
+		"hotWaterCost": "Water Cost",
+		"country": "Country",
+		"city": "City",
+		"address": "Address",
+		"zipcode": "Zipcode"
+	},
+	"rooms": {
+		"floor": "Floor",
+		"number": "Number",
+		"checkin": "Check In",
+		"checkout": "Check Out"
+	},
+	"user": {
+		"add": "Aggiungi utente",
+		"name": "Name",
+		"lastname": "Lastname"
+	},
+	"stays": {
+		"title": "Stay",
+		"start": "Start",
+		"end": "End",
+		"open": "OPEN"
+	}
+}

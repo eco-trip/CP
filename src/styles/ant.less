@@ -1,0 +1,188 @@
+/*CARD*/
+.ant-card {
+	height: 100%;
+
+	&.height-auto {
+		height: auto;
+	}
+
+	.ant-col {
+
+		.ant-input-number-group-wrapper,
+		.ant-picker {
+			width: 100%;
+		}
+	}
+}
+
+.ant-card-body {
+	.ant-form-item:last-child {
+		margin-bottom: 0;
+	}
+}
+
+.ant-card-extra {
+	padding: 0;
+
+	.ant-form-item {
+		margin-bottom: 0;
+	}
+}
+
+/*AVATAR*/
+.ant-avatar {
+	background: @gray-border;
+}
+
+.ant-avatar {
+	color: @gray-color;
+}
+
+.ant-avatar-group .userPic:not(:first-child),
+.ant-avatar-group .companyPic:not(:first-child) {
+	margin-left: -8px;
+}
+
+/* ANT SPACE */
+.ant-space {
+	width: 100%;
+}
+
+/* ANT ROW */
+.gutter-row {
+	margin: 0 calc(-1 * @gutter / 2);
+	row-gap: @gutter  !important;
+
+	>.ant-col {
+		padding: 0 calc(@gutter / 2);
+	}
+}
+
+/* ANT IMAGE PREVIEW */
+.ant-image-preview-operations-operation:not(:first-child) {
+	display: none;
+}
+
+/*INPUT*/
+.ant-input-prefix {
+	margin-right: 8px;
+}
+
+Input:disabled,
+textarea:disabled,
+.ant-input-number-disabled,
+.ant-select-disabled.ant-select:not(.ant-select-customize-input) .ant-select-selector {
+	border: none;
+	color: black !important;
+	cursor: text !important;
+	background-color: transparent !important;
+}
+
+/*SELECT*/
+.ant-select-disabled {
+	.ant-select-arrow {
+		display: none;
+	}
+}
+
+.select-suffix {
+	margin: 0;
+
+	.ant-form-item-control-input {
+		min-height: 0;
+	}
+}
+
+/*BTN*/
+.ant-btn>svg+span,
+.ant-btn>span+svg {
+	margin-left: 8px;
+}
+
+/*TAG*/
+.ant-tag {
+	&.uppercase {
+		text-transform: uppercase;
+	}
+
+	>svg+span,
+	>span+svg {
+		margin-left: 8px;
+	}
+}
+
+.ant-table-cell {
+	.ant-tag {
+		display: block;
+		text-align: center;
+	}
+	.ant-tag.inline {
+		display: inline-block;
+	}
+}
+
+/*COLLAPSE*/
+.ant-collapse>.ant-collapse-item>.ant-collapse-header {
+	align-items: center;
+}
+
+/*DIVIDER*/
+.ant-divider.small {
+	&.ant-divider-horizontal {
+		margin: 12px 0;
+	}
+
+	&.ant-divider-vertical {
+		margin: 0 12px;
+	}
+}
+
+/*TIMELINE*/
+.ant-timeline-item-head-custom {
+	width: 22px;
+	height: 22px;
+	border-radius: 50%;
+	font-size: 14px;
+	line-height: 22px;
+	text-align: center;
+	padding: 0;
+	background: @blue-5;
+	color: #fff;
+}
+
+/*TABS*/
+.ant-tabs-tab-btn>span>svg {
+	margin-right: 8px;
+}
+
+.ant-tabs-dropdown-menu-item {
+	svg {
+		margin-right: 8px;
+	}
+}
+
+.ant-form-item-columned-values {
+	.ant-form-item-label {
+		word-wrap: break-word;
+		white-space: break-spaces !important;
+	}
+
+	.breakpoint-only-xs {
+		.ant-col {
+			flex: 1 !important;
+		}
+	}
+}
+
+/*LABEL*/
+.label-with-button {
+	.ant-form-item-label {
+		label {
+			display: block;
+		}
+
+		button {
+			float: right;
+		}
+	}
+}
